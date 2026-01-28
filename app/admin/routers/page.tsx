@@ -77,7 +77,7 @@ export default async function AdminRoutersPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {items.map((item) => (
+                      {items.map((item: any) => (
                         <tr key={item.id} className="border-b last:border-0">
                           <td className="py-2 px-2">{item.model}</td>
                           <td className="py-2 px-2 text-right font-medium">
