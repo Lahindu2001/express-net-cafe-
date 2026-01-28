@@ -15,29 +15,22 @@ export async function PATCH(
     const { id } = await params
     const body = await request.json()
 
-    // Build dynamic update query
-    const updates: string[] = []
-    const values: any[] = []
-    let paramIndex = 1
-
-    const allowedFields = ['name', 'description', 'price', 'price_unit', 'icon']
-    
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        updates.push(`${field} = $${paramIndex}`)
-        values.push(body[field])
-        paramIndex++
-      }
+    // Handle updates individually to avoid sql.unsafe issues
+    if (body.name !== undefined) {
+      await sql`UPDATE services SET name = ${body.name}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-
-    if (updates.length === 0) {
-      return NextResponse.json({ error: "No fields to update" }, { status: 400 })
+    if (body.description !== undefined) {
+      await sql`UPDATE services SET description = ${body.description}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-
-    values.push(id)
-    const query = `UPDATE services SET ${updates.join(', ')} WHERE id = $${paramIndex}`
-    
-    await sql.unsafe(query, values)
+    if (body.price !== undefined) {
+      await sql`UPDATE services SET price = ${body.price}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.price_unit !== undefined) {
+      await sql`UPDATE services SET price_unit = ${body.price_unit}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.icon !== undefined) {
+      await sql`UPDATE services SET icon = ${body.icon}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {

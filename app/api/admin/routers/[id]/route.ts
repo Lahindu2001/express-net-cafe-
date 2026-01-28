@@ -15,29 +15,25 @@ export async function PATCH(
     const { id } = await params
     const body = await request.json()
 
-    // Build dynamic update query
-    const updates: string[] = []
-    const values: any[] = []
-    let paramIndex = 1
-
-    const allowedFields = ['model', 'price', 'quantity', 'description', 'features', 'image_url']
-    
-    for (const field of allowedFields) {
-      if (body[field] !== undefined) {
-        updates.push(`${field} = $${paramIndex}`)
-        values.push(body[field])
-        paramIndex++
-      }
+    // Handle updates individually to avoid sql.unsafe issues
+    if (body.model !== undefined) {
+      await sql`UPDATE routers SET model = ${body.model}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-
-    if (updates.length === 0) {
-      return NextResponse.json({ error: "No fields to update" }, { status: 400 })
+    if (body.price !== undefined) {
+      await sql`UPDATE routers SET price = ${body.price}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-
-    values.push(id)
-    const query = `UPDATE routers SET ${updates.join(', ')} WHERE id = $${paramIndex}`
-    
-    await sql.unsafe(query, values)
+    if (body.quantity !== undefined) {
+      await sql`UPDATE routers SET quantity = ${body.quantity}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.description !== undefined) {
+      await sql`UPDATE routers SET description = ${body.description}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.features !== undefined) {
+      await sql`UPDATE routers SET features = ${body.features}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.image_url !== undefined) {
+      await sql`UPDATE routers SET image_url = ${body.image_url}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
 
     return NextResponse.json({ success: true })
   } catch (error) {
