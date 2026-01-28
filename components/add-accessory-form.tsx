@@ -19,7 +19,7 @@ import {
 interface Category {
   id: number
   name: string
-  icon?: string | null
+  icon: string | null
 }
 
 interface AddAccessoryFormProps {
