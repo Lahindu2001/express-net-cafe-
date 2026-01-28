@@ -5,7 +5,7 @@ import { AddSimCardForm } from "@/components/add-sim-card-form"
 async function getProviders() {
   try {
     const providers = await sql`SELECT id, name, logo_url FROM sim_providers ORDER BY name`
-    return providers
+    return providers as Array<{ id: number; name: string; logo_url: string | null }>
   } catch {
     return []
   }

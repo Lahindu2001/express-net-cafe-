@@ -28,9 +28,16 @@ export default async function ServicesPage() {
   }> = []
   
   try {
-    services = await sql`
+    const servicesResult = await sql`
       SELECT * FROM services ORDER BY name
     `
+    services = servicesResult as Array<{
+      id: number
+      name: string
+      description: string | null
+      price: number | null
+      icon: string | null
+    }>
   } catch {
     // Table might be empty
   }

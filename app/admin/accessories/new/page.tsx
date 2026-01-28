@@ -5,7 +5,7 @@ import { AddAccessoryForm } from "@/components/add-accessory-form"
 async function getCategories() {
   try {
     const categories = await sql`SELECT id, name, icon FROM accessory_categories ORDER BY name`
-    return categories
+    return categories as Array<{ id: number; name: string; icon: string | null }>
   } catch {
     return []
   }

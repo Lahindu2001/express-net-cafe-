@@ -26,11 +26,12 @@ export default async function DisplayRepairPage() {
   }> = []
   
   try {
-    brands = await sql`
+    const brandsResult = await sql`
       SELECT * FROM phone_brands ORDER BY name
     `
+    brands = brandsResult as Array<{ id: number; name: string; logo_url: string | null }>
     
-    displayPrices = await sql`
+    const displayPricesResult = await sql`
       SELECT 
         dp.id,
         pb.name as brand_name,
@@ -44,6 +45,15 @@ export default async function DisplayRepairPage() {
       JOIN phone_brands pb ON pm.brand_id = pb.id
       ORDER BY pb.name, pm.name
     `
+    displayPrices = displayPricesResult as Array<{
+      id: number
+      brand_name: string
+      brand_id: number
+      model_name: string
+      model_image: string | null
+      display_type: string
+      quantity: number
+    }>
   } catch {
     // Tables might be empty
   }

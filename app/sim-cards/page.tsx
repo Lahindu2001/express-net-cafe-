@@ -21,11 +21,12 @@ export default async function SimCardsPage() {
   }> = []
   
   try {
-    providers = await sql`
+    const providersResult = await sql`
       SELECT * FROM sim_providers ORDER BY name
     `
+    providers = providersResult as Array<{ id: number; name: string; logo_url: string | null }>
     
-    simCards = await sql`
+    const simCardsResult = await sql`
       SELECT 
         s.id,
         s.provider_id,
@@ -37,6 +38,14 @@ export default async function SimCardsPage() {
       JOIN sim_providers sp ON s.provider_id = sp.id
       ORDER BY sp.name, s.type
     `
+    simCards = simCardsResult as Array<{
+      id: number
+      provider_id: number
+      provider_name: string
+      type: string
+      price: number
+      quantity: number
+    }>
   } catch {
     // Tables might be empty
   }

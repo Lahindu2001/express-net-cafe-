@@ -37,11 +37,12 @@ export default async function AccessoriesPage() {
   }> = []
   
   try {
-    categories = await sql`
+    const categoriesResult = await sql`
       SELECT * FROM accessory_categories ORDER BY name
     `
+    categories = categoriesResult as Array<{ id: number; name: string; icon: string | null }>
     
-    accessories = await sql`
+    const accessoriesResult = await sql`
       SELECT 
         a.id,
         a.category_id,
@@ -55,6 +56,16 @@ export default async function AccessoriesPage() {
       JOIN accessory_categories ac ON a.category_id = ac.id
       ORDER BY ac.name, a.name
     `
+    accessories = accessoriesResult as Array<{
+      id: number
+      category_id: number
+      category_name: string
+      name: string
+      description: string | null
+      price: number
+      quantity: number
+      image_url: string | null
+    }>
   } catch {
     // Tables might be empty
   }

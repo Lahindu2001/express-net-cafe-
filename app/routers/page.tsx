@@ -24,11 +24,12 @@ export default async function RoutersPage() {
   }> = []
   
   try {
-    providers = await sql`
+    const providersResult = await sql`
       SELECT * FROM router_providers ORDER BY name
     `
+    providers = providersResult as Array<{ id: number; name: string; logo_url: string | null }>
     
-    routers = await sql`
+    const routersResult = await sql`
       SELECT 
         r.id,
         r.provider_id,
@@ -42,6 +43,16 @@ export default async function RoutersPage() {
       JOIN router_providers rp ON r.provider_id = rp.id
       ORDER BY rp.name, r.model
     `
+    routers = routersResult as Array<{
+      id: number
+      provider_id: number
+      provider_name: string
+      name: string
+      description: string | null
+      price: number
+      quantity: number
+      image_url: string | null
+    }>
   } catch {
     // Tables might be empty
   }

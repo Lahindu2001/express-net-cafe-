@@ -5,7 +5,7 @@ import { AddRouterForm } from "@/components/add-router-form"
 async function getProviders() {
   try {
     const providers = await sql`SELECT id, name, logo_url FROM router_providers ORDER BY name`
-    return providers
+    return providers as Array<{ id: number; name: string; logo_url: string | null }>
   } catch {
     return []
   }

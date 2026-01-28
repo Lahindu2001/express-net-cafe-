@@ -5,7 +5,7 @@ import { AddDisplayPriceForm } from "@/components/add-display-price-form"
 async function getBrands() {
   try {
     const brands = await sql`SELECT id, name FROM phone_brands ORDER BY name`
-    return brands
+    return brands as Array<{ id: number; name: string }>
   } catch {
     return []
   }

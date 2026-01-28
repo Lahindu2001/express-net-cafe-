@@ -52,7 +52,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     
     try {
       if (category === "all" || category === "display") {
-        displayResults = await sql`
+        const results = await sql`
           SELECT 
             dp.id,
             pb.name as brand_name,
@@ -69,10 +69,19 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           ORDER BY pb.name, pm.name
           LIMIT 20
         `
+        displayResults = results as Array<{
+          id: number
+          brand_name: string
+          model_name: string
+          category: string
+          price: number
+          quality: string
+          in_stock: boolean
+        }>
       }
 
       if (category === "all" || category === "accessories") {
-        accessoryResults = await sql`
+        const results = await sql`
           SELECT 
             a.id,
             ac.name as category_name,
@@ -88,10 +97,18 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           ORDER BY a.name
           LIMIT 20
         `
+        accessoryResults = results as Array<{
+          id: number
+          category_name: string
+          name: string
+          description: string | null
+          price: number
+          quantity: number
+        }>
       }
 
       if (category === "all" || category === "routers") {
-        routerResults = await sql`
+        const results = await sql`
           SELECT 
             r.id,
             rp.name as provider_name,
@@ -107,6 +124,14 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           ORDER BY r.name
           LIMIT 20
         `
+        routerResults = results as Array<{
+          id: number
+          provider_name: string
+          name: string
+          description: string | null
+          price: number
+          quantity: number
+        }>
       }
     } catch {
       // Tables might not exist yet
