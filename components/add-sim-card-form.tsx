@@ -19,7 +19,7 @@ import {
 interface Provider {
   id: number
   name: string
-  logo_url?: string
+  logo_url?: string | null
 }
 
 interface AddSimCardFormProps {
