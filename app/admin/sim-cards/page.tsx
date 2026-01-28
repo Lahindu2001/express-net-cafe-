@@ -65,7 +65,7 @@ export default async function AdminSimCardsPage() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {items.map((item) => (
+                  {items.map((item: any) => (
                     <div key={item.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
                       <div>
                         <p className="font-medium">{item.type}</p>
