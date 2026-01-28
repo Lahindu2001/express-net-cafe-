@@ -81,7 +81,7 @@ export default async function AdminDisplayPricesPage() {
                       </tr>
                     </thead>
                     <tbody>
-                      {items.map((item) => (
+                      {items.map((item: any) => (
                         <tr key={item.id} className="border-b last:border-0">
                           <td className="py-2 px-2">{item.model_name}</td>
                           <td className="py-2 px-2 text-muted-foreground">{item.display_type}</td>
