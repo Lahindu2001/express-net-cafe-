@@ -50,8 +50,33 @@ export async function PATCH(
     }
 
     if (updates.length > 0) {
-      const setClause = updates.map((field, index) => `${field} = $${index + 1}`).join(', ')
-      await sql.unsafe(`UPDATE accessories SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length + 1}`, [...values, id])
+      // Build dynamic update using template literals like the DELETE method
+      const updateFields = []
+      
+      if (body.name !== undefined) {
+        updateFields.push(sql`name = ${body.name}`)
+      }
+      if (body.description !== undefined) {
+        updateFields.push(sql`description = ${body.description}`)
+      }
+      if (body.price !== undefined) {
+        updateFields.push(sql`price = ${body.price}`)
+      }
+      if (body.quantity !== undefined) {
+        updateFields.push(sql`quantity = ${body.quantity}`)
+      }
+      if (body.image_url !== undefined) {
+        updateFields.push(sql`image_url = ${body.image_url}`)
+      }
+      if (body.compatible_models !== undefined) {
+        updateFields.push(sql`compatible_models = ${body.compatible_models}`)
+      }
+      
+      await sql`
+        UPDATE accessories 
+        SET ${sql.join(updateFields, sql`, `)}, updated_at = CURRENT_TIMESTAMP 
+        WHERE id = ${id}
+      `
     }
 
     return NextResponse.json({ success: true })
