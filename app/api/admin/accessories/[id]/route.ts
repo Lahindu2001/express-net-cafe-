@@ -49,34 +49,24 @@ export async function PATCH(
       values.push(body.compatible_models)
     }
 
-    if (updates.length > 0) {
-      // Build dynamic update using template literals like the DELETE method
-      const updateFields = []
-      
-      if (body.name !== undefined) {
-        updateFields.push(sql`name = ${body.name}`)
-      }
-      if (body.description !== undefined) {
-        updateFields.push(sql`description = ${body.description}`)
-      }
-      if (body.price !== undefined) {
-        updateFields.push(sql`price = ${body.price}`)
-      }
-      if (body.quantity !== undefined) {
-        updateFields.push(sql`quantity = ${body.quantity}`)
-      }
-      if (body.image_url !== undefined) {
-        updateFields.push(sql`image_url = ${body.image_url}`)
-      }
-      if (body.compatible_models !== undefined) {
-        updateFields.push(sql`compatible_models = ${body.compatible_models}`)
-      }
-      
-      await sql`
-        UPDATE accessories 
-        SET ${sql.join(updateFields, sql`, `)}, updated_at = CURRENT_TIMESTAMP 
-        WHERE id = ${id}
-      `
+    // Handle updates individually to avoid sql.unsafe issues
+    if (body.name !== undefined) {
+      await sql`UPDATE accessories SET name = ${body.name}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.description !== undefined) {
+      await sql`UPDATE accessories SET description = ${body.description}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.price !== undefined) {
+      await sql`UPDATE accessories SET price = ${body.price}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.quantity !== undefined) {
+      await sql`UPDATE accessories SET quantity = ${body.quantity}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.image_url !== undefined) {
+      await sql`UPDATE accessories SET image_url = ${body.image_url}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
+    }
+    if (body.compatible_models !== undefined) {
+      await sql`UPDATE accessories SET compatible_models = ${body.compatible_models}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
 
     return NextResponse.json({ success: true })
