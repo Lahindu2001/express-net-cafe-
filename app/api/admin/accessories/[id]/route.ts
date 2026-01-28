@@ -51,7 +51,7 @@ export async function PATCH(
 
     if (updates.length > 0) {
       const setClause = updates.map((field, index) => `${field} = $${index + 1}`).join(', ')
-      await sql.unsafe(`UPDATE accessories SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length + 1}`)([...values, id])
+      await sql.unsafe(`UPDATE accessories SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length + 1}`, [...values, id])
     }
 
     return NextResponse.json({ success: true })
