@@ -15,33 +15,18 @@ export async function PATCH(
     const { id } = await params
     const body = await request.json()
 
-    // Build update query dynamically based on provided fields
-    const updates = []
-    const values = []
-    
+    // Handle updates individually to avoid sql.unsafe issues
     if (body.type !== undefined) {
-      updates.push('type')
-      values.push(body.type)
+      await sql`UPDATE sim_cards SET type = ${body.type}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-    
     if (body.price !== undefined) {
-      updates.push('price')
-      values.push(body.price)
+      await sql`UPDATE sim_cards SET price = ${body.price}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-    
     if (body.quantity !== undefined) {
-      updates.push('quantity')
-      values.push(body.quantity)
+      await sql`UPDATE sim_cards SET quantity = ${body.quantity}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-    
     if (body.description !== undefined) {
-      updates.push('description')
-      values.push(body.description)
-    }
-
-    if (updates.length > 0) {
-      const setClause = updates.map((field, index) => `${field} = $${index + 1}`).join(', ')
-      await sql.unsafe(`UPDATE sim_cards SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length + 1}`, [...values, id])
+      await sql`UPDATE sim_cards SET description = ${body.description}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
 
     return NextResponse.json({ success: true })

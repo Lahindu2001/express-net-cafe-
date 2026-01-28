@@ -15,33 +15,15 @@ export async function PATCH(
     const { id } = await params
     const body = await request.json()
 
-    // Build update query dynamically based on provided fields
-    const updates = []
-    const values = []
-    
+    // Handle updates individually to avoid sql.unsafe issues  
     if (body.display_type !== undefined) {
-      updates.push('display_type')
-      values.push(body.display_type)
+      await sql`UPDATE display_prices SET display_type = ${body.display_type}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-    
     if (body.price !== undefined) {
-      updates.push('price')
-      values.push(body.price)
+      await sql`UPDATE display_prices SET price = ${body.price}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
-    
-    if (body.quantity !== undefined) {
-      updates.push('quantity')
-      values.push(body.quantity)
-    }
-    
     if (body.notes !== undefined) {
-      updates.push('notes')
-      values.push(body.notes)
-    }
-
-    if (updates.length > 0) {
-      const setClause = updates.map((field, index) => `${field} = $${index + 1}`).join(', ')
-      await sql.unsafe(`UPDATE display_prices SET ${setClause}, updated_at = CURRENT_TIMESTAMP WHERE id = $${values.length + 1}`, [...values, id])
+      await sql`UPDATE display_prices SET notes = ${body.notes}, updated_at = CURRENT_TIMESTAMP WHERE id = ${id}`
     }
 
     return NextResponse.json({ success: true })
