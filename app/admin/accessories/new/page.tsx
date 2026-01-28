@@ -16,7 +16,7 @@ export default async function NewAccessoryPage() {
 
   return (
     <div className="max-w-4xl">
-      <h1 className="text-2xl font-bold mb-6">Add Accessory</h1>
+      <h1 className="text-2xl font-bold mb-6">Add new Accessory</h1>
 
       <div className="space-y-6">
         <AddAccessoryForm categories={categories} />
