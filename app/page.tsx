@@ -82,7 +82,7 @@ const features = [
 export default async function HomePage() {
   const user = await getSession()
   
-  let reviews: Array<{ id: number; user_name: string; rating: number; comment: string }> = []
+  let reviews: any[] = []
   try {
     reviews = await sql`
       SELECT r.id, u.name as user_name, r.rating, r.comment
