@@ -19,7 +19,7 @@ async function getModels() {
       JOIN phone_brands pb ON pm.brand_id = pb.id
       ORDER BY pb.name, pm.name
     `
-    return models
+    return models as Array<{ id: number; name: string; brand_id: number; brand_name: string }>
   } catch {
     return []
   }
