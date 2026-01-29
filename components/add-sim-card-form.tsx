@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { ImageUpload } from "@/components/image-upload"
 
 interface Provider {
   id: number
@@ -156,13 +157,12 @@ export function AddSimCardForm({ providers: initialProviders }: AddSimCardFormPr
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="provider-logo">Logo URL (Optional)</Label>
-              <Input
-                id="provider-logo"
-                value={newProviderLogo}
-                onChange={(e) => setNewProviderLogo(e.target.value)}
-                placeholder="https://example.com/logo.png"
-                type="url"
+              <Label>Provider Logo (Optional)</Label>
+              <ImageUpload
+                folder="providers"
+                onUpload={setNewProviderLogo}
+                currentImage={newProviderLogo}
+                label="Upload Provider Logo"
               />
             </div>
 

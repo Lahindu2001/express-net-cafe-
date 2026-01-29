@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { ImageUpload } from "@/components/image-upload"
 
 interface Provider {
   id: number
@@ -294,13 +295,12 @@ export function AddRouterForm({ providers: initialProviders }: AddRouterFormProp
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image-url">Image URL (Optional)</Label>
-              <Input
-                id="image-url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="https://example.com/router.jpg"
-                type="url"
+              <Label>Router Image (Optional)</Label>
+              <ImageUpload
+                folder="routers"
+                onUpload={setImageUrl}
+                currentImage={imageUrl}
+                label="Upload Router Image"
               />
             </div>
 

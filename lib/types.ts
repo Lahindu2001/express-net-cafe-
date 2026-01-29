@@ -18,7 +18,7 @@ export interface PhoneModel {
   brand_id: number
   brand_name?: string
   name: string
-  category: string
+  image_url?: string
 }
 
 export interface DisplayPrice {

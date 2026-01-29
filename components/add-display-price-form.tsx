@@ -16,6 +16,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { ImageUpload } from "@/components/image-upload"
 
 interface Brand {
   id: number
@@ -230,13 +231,12 @@ export function AddDisplayPriceForm({ brands: initialBrands, models: initialMode
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="brand-logo">Logo URL (Optional)</Label>
-              <Input
-                id="brand-logo"
-                value={newBrandLogo}
-                onChange={(e) => setNewBrandLogo(e.target.value)}
-                placeholder="https://example.com/logo.png"
-                type="url"
+              <Label>Brand Logo (Optional)</Label>
+              <ImageUpload
+                folder="brands"
+                onUpload={setNewBrandLogo}
+                currentImage={newBrandLogo}
+                label="Upload Brand Logo"
               />
             </div>
 
@@ -305,13 +305,12 @@ export function AddDisplayPriceForm({ brands: initialBrands, models: initialMode
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="model-image">Image URL (Optional)</Label>
-              <Input
-                id="model-image"
-                value={newModelImage}
-                onChange={(e) => setNewModelImage(e.target.value)}
-                placeholder="https://example.com/phone.png"
-                type="url"
+              <Label>Phone Model Image (Optional)</Label>
+              <ImageUpload
+                folder="phones"
+                onUpload={setNewModelImage}
+                currentImage={newModelImage}
+                label="Upload Phone Image"
               />
             </div>
 

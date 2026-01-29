@@ -15,6 +15,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog"
+import { ImageUpload } from "@/components/image-upload"
 
 interface Category {
   id: number
@@ -282,13 +283,12 @@ export function AddAccessoryForm({ categories: initialCategories }: AddAccessory
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="image-url">Image URL (Optional)</Label>
-              <Input
-                id="image-url"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-                placeholder="https://example.com/image.jpg"
-                type="url"
+              <Label>Accessory Image (Optional)</Label>
+              <ImageUpload
+                folder="accessories"
+                onUpload={setImageUrl}
+                currentImage={imageUrl}
+                label="Upload Accessory Image"
               />
             </div>
 

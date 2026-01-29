@@ -1,11 +1,12 @@
+import { getSession } from "@/lib/auth"
+import Image from "next/image"
+import sql from "@/lib/db"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
-import { getSession } from "@/lib/auth"
-import sql from "@/lib/db"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Phone, CreditCard } from "lucide-react"
+import { Phone, CreditCard, Smartphone } from "lucide-react"
 
 export default async function SimCardsPage() {
   const user = await getSession()
@@ -31,6 +32,7 @@ export default async function SimCardsPage() {
         s.id,
         s.provider_id,
         sp.name as provider_name,
+        sp.logo_url as provider_logo,
         s.type,
         s.price,
         s.quantity
@@ -42,6 +44,7 @@ export default async function SimCardsPage() {
       id: number
       provider_id: number
       provider_name: string
+      provider_logo: string | null
       type: string
       price: number
       quantity: number
@@ -55,12 +58,13 @@ export default async function SimCardsPage() {
     if (!acc[item.provider_name]) {
       acc[item.provider_name] = {
         provider_id: item.provider_id,
+        provider_logo: item.provider_logo,
         sims: []
       }
     }
     acc[item.provider_name].sims.push(item)
     return acc
-  }, {} as Record<string, { provider_id: number; sims: typeof simCards }>)
+  }, {} as Record<string, { provider_id: number; provider_logo: string | null; sims: typeof simCards }>)
 
   const providerColors: Record<string, string> = {
     "Dialog": "bg-red-500/10 text-red-600 border-red-200",
@@ -95,8 +99,19 @@ export default async function SimCardsPage() {
                 <a key={provider.id} href={`#provider-${provider.id}`}>
                   <Badge 
                     variant="outline" 
-                    className={`cursor-pointer transition-colors py-2 px-4 ${providerColors[provider.name] || ''}`}
+                    className={`cursor-pointer transition-colors py-2 px-4 flex items-center gap-2 ${providerColors[provider.name] || ''}`}
                   >
+                    {provider.logo_url && (
+                      <div className="w-4 h-4 relative">
+                        <Image
+                          src={provider.logo_url}
+                          alt={`${provider.name} logo`}
+                          fill
+                          className="object-contain"
+                        />
+                      </div>
+                    )}
+                    <Smartphone className="h-4 w-4" />
                     {provider.name}
                   </Badge>
                 </a>
@@ -124,11 +139,25 @@ export default async function SimCardsPage() {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                {Object.entries(groupedByProvider).map(([providerName, { provider_id, sims }]) => (
+                {Object.entries(groupedByProvider).map(([providerName, { provider_id, provider_logo, sims }]) => (
                   <div key={providerName} id={`provider-${provider_id}`} className="scroll-mt-24">
                     <Card className="h-full">
                       <CardHeader className={`${providerColors[providerName]?.split(' ')[0] || 'bg-muted'} rounded-t-lg`}>
-                        <CardTitle className="text-xl text-center">{providerName}</CardTitle>
+                        <div className="flex items-center justify-center gap-3">
+                          {provider_logo ? (
+                            <div className="w-8 h-8 relative bg-white rounded-full border border-border p-1">
+                              <Image
+                                src={provider_logo}
+                                alt={`${providerName} logo`}
+                                fill
+                                className="object-contain p-0.5"
+                              />
+                            </div>
+                          ) : (
+                            <CreditCard className="h-6 w-6" />
+                          )}
+                          <CardTitle className="text-xl text-center">{providerName}</CardTitle>
+                        </div>
                       </CardHeader>
                       <CardContent className="pt-6">
                         <div className="space-y-4">

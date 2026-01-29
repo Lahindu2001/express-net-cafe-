@@ -20,6 +20,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog"
 import { MoreHorizontal, Pencil, Trash2, Plus, Minus } from "lucide-react"
+import { ImageUpload } from "@/components/image-upload"
 
 interface RouterActionsProps {
   id: number
@@ -197,12 +198,12 @@ export function RouterActions({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-image-url">Image URL</Label>
-              <Input
-                id="edit-image-url"
-                value={editImageUrl}
-                onChange={(e) => setEditImageUrl(e.target.value)}
-                type="url"
+              <Label>Router Image</Label>
+              <ImageUpload
+                folder="routers"
+                onUpload={setEditImageUrl}
+                currentImage={editImageUrl}
+                label="Upload Router Image"
               />
             </div>
           </div>

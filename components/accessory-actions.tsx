@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dialog"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { MoreHorizontal, Pencil, Trash2, Loader2, AlertCircle, CheckCircle2 } from "lucide-react"
+import { ImageUpload } from "@/components/image-upload"
 
 interface AccessoryActionsProps {
   id: number
@@ -174,12 +175,12 @@ export function AccessoryActions({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="edit-image-url">Image URL</Label>
-              <Input
-                id="edit-image-url"
-                value={editImageUrl}
-                onChange={(e) => setEditImageUrl(e.target.value)}
-                type="url"
+              <Label>Accessory Image</Label>
+              <ImageUpload
+                folder="accessories"
+                onUpload={setEditImageUrl}
+                currentImage={editImageUrl}
+                label="Upload Accessory Image"
               />
             </div>
 

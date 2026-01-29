@@ -30,8 +30,11 @@ interface AdminSidebarProps {
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Display Prices", href: "/admin/display-prices", icon: Smartphone },
+  { name: "Phone Brands", href: "/admin/brands", icon: Smartphone },
+  { name: "Phone Models", href: "/admin/models", icon: Smartphone },
   { name: "Accessories", href: "/admin/accessories", icon: Package },
   { name: "SIM Cards", href: "/admin/sim-cards", icon: CreditCard },
+  { name: "SIM Providers", href: "/admin/sim-providers", icon: CreditCard },
   { name: "Routers", href: "/admin/routers", icon: Wifi },
   { name: "Services", href: "/admin/services", icon: Wrench },
   { name: "Reviews", href: "/admin/reviews", icon: Star },
