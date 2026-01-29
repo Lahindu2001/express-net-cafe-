@@ -9,6 +9,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Phone, CreditCard, Smartphone } from "lucide-react"
 
+type SimCardWithProvider = {
+  id: number
+  provider_id: number
+  provider_name: string
+  provider_logo: string | null
+  type: string
+  price: number
+  quantity: number
+}
+
 export default async function SimCardsPage() {
   const user = await getSession()
   
@@ -41,15 +51,7 @@ export default async function SimCardsPage() {
       JOIN sim_providers sp ON s.provider_id = sp.id
       ORDER BY sp.name, s.type
     `
-    simCards = simCardsResult as Array<{
-      id: number
-      provider_id: number
-      provider_name: string
-      provider_logo: string | null
-      type: string
-      price: number
-      quantity: number
-    }>
+    simCards = simCardsResult as SimCardWithProvider[]
   } catch {
     // Tables might be empty
   }
@@ -68,15 +70,7 @@ export default async function SimCardsPage() {
   }, {} as Record<string, { 
     provider_id: number; 
     provider_logo: string | null; 
-    sims: Array<{
-      id: number
-      provider_id: number
-      provider_name: string
-      provider_logo: string | null
-      type: string
-      price: number
-      quantity: number
-    }>
+    sims: SimCardWithProvider[]
   }>)
 
   const providerColors: Record<string, string> = {
