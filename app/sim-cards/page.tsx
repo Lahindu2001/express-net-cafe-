@@ -23,14 +23,7 @@ export default async function SimCardsPage() {
   const user = await getSession()
   
   let providers: Array<{ id: number; name: string; logo_url: string | null }> = []
-  let simCards: Array<{
-    id: number
-    provider_id: number
-    provider_name: string
-    type: string
-    price: number
-    quantity: number
-  }> = []
+  let simCards: SimCardWithProvider[] = []
   
   try {
     const providersResult = await sql`
@@ -51,21 +44,36 @@ export default async function SimCardsPage() {
       JOIN sim_providers sp ON s.provider_id = sp.id
       ORDER BY sp.name, s.type
     `
-    simCards = simCardsResult as SimCardWithProvider[]
-  } catch {
-    // Tables might be empty
+    
+    // Ensure the result is properly typed
+    simCards = (simCardsResult || []).map(item => ({
+      id: item.id,
+      provider_id: item.provider_id,
+      provider_name: item.provider_name || '',
+      provider_logo: item.provider_logo || null,
+      type: item.type,
+      price: item.price,
+      quantity: item.quantity
+    })) as SimCardWithProvider[]
+    
+  } catch (error) {
+    console.error('Database error:', error)
+    // Tables might be empty or there might be a connection issue
+    providers = []
+    simCards = []
   }
 
   // Group by provider
   const groupedByProvider = simCards.reduce((acc, item) => {
-    if (!acc[item.provider_name]) {
-      acc[item.provider_name] = {
+    const providerName = item.provider_name || 'Unknown Provider'
+    if (!acc[providerName]) {
+      acc[providerName] = {
         provider_id: item.provider_id,
         provider_logo: item.provider_logo,
         sims: []
       }
     }
-    acc[item.provider_name].sims.push(item)
+    acc[providerName].sims.push(item)
     return acc
   }, {} as Record<string, { 
     provider_id: number; 
