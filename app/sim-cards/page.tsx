@@ -41,7 +41,15 @@ export default async function SimCardsPage() {
       JOIN sim_providers sp ON s.provider_id = sp.id
       ORDER BY sp.name, s.type
     `
-    simCards = simCardsResult as SimCard[]
+    simCards = simCardsResult as Array<{
+      id: number
+      provider_id: number
+      provider_name: string
+      provider_logo: string | null
+      type: string
+      price: number
+      quantity: number
+    }>
   } catch {
     // Tables might be empty
   }
@@ -57,7 +65,19 @@ export default async function SimCardsPage() {
     }
     acc[item.provider_name].sims.push(item)
     return acc
-  }, {} as Record<string, { provider_id: number; provider_logo: string | null; sims: typeof simCards }>)
+  }, {} as Record<string, { 
+    provider_id: number; 
+    provider_logo: string | null; 
+    sims: Array<{
+      id: number
+      provider_id: number
+      provider_name: string
+      provider_logo: string | null
+      type: string
+      price: number
+      quantity: number
+    }>
+  }>)
 
   const providerColors: Record<string, string> = {
     "Dialog": "bg-red-500/10 text-red-600 border-red-200",
