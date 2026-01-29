@@ -10,7 +10,7 @@ interface EditPhoneModelPageProps {
 export default async function EditPhoneModelPage({ params }: EditPhoneModelPageProps) {
   const { id } = await params
   
-  const models = await db`
+  const models = await sql`
     SELECT * FROM phone_models WHERE id = ${parseInt(id)}
   ` as PhoneModel[]
   
