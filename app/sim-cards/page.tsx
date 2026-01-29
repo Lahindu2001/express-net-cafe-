@@ -40,15 +40,7 @@ export default async function SimCardsPage() {
       JOIN sim_providers sp ON s.provider_id = sp.id
       ORDER BY sp.name, s.type
     `
-    simCards = simCardsResult as Array<{
-      id: number
-      provider_id: number
-      provider_name: string
-      provider_logo: string | null
-      type: string
-      price: number
-      quantity: number
-    }>
+    simCards = simCardsResult as SimCard[]
   } catch {
     // Tables might be empty
   }
