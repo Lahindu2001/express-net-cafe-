@@ -58,6 +58,7 @@ export interface SimCard {
   id: number
   provider_id: number
   provider_name?: string
+  provider_logo?: string
   type: string
   price: number
   quantity: number
