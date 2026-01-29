@@ -43,7 +43,7 @@ export async function PATCH(
     const { id } = await params
     const { name, logo_url } = await request.json()
 
-    const result = await db`
+    const result = await sql`
       UPDATE phone_brands 
       SET name = ${name}, logo_url = ${logo_url || null}
       WHERE id = ${parseInt(id)}
