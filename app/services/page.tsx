@@ -1,4 +1,5 @@
 import React from "react"
+import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSession } from "@/lib/auth"
@@ -75,15 +76,43 @@ export default async function ServicesPage() {
       
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-red-500/10 via-background to-accent/10 py-12">
-          <div className="container mx-auto px-4">
+        <section className="relative py-16 md:py-20 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/services-bg.jpg"
+              alt="Services Background"
+              fill
+              className="object-cover"
+              priority
+              quality={90}
+            />
+            {/* Gradient Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85" />
+            {/* Additional colored gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-accent/10" />
+          </div>
+
+          {/* Content */}
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">Our Services</h1>
-              <p className="text-muted-foreground mb-6">
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center backdrop-blur-sm border border-blue-500/30 animate-in fade-in slide-in-from-top-4 duration-1000">
+                  <Wrench className="h-10 w-10 text-blue-600" />
+                </div>
+              </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
+                Our Services
+              </h1>
+              <p className="text-muted-foreground mb-6 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
                 Professional printing, photocopying, and mobile repair services.
               </p>
             </div>
           </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 bg-blue-500/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
         </section>
 
         {/* Services Grid */}
