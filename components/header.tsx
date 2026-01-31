@@ -5,6 +5,7 @@ import React from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { Menu, X, Phone, Search, User, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,12 +39,20 @@ export function Header({ user }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const pathname = usePathname()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       window.location.href = `/search?q=${encodeURIComponent(searchQuery)}`
     }
+  }
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/"
+    }
+    return pathname.startsWith(href)
   }
 
   return (
@@ -89,9 +98,16 @@ export function Header({ user }: HeaderProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className={`text-sm font-medium transition-colors relative pb-1 ${
+                  isActive(item.href)
+                    ? "text-primary font-semibold"
+                    : "text-muted-foreground hover:text-primary"
+                }`}
               >
                 {item.name}
+                {isActive(item.href) && (
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+                )}
               </Link>
             ))}
           </nav>
@@ -172,7 +188,11 @@ export function Header({ user }: HeaderProps) {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-muted rounded-md transition-colors"
+                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                    isActive(item.href)
+                      ? "text-primary bg-primary/10 font-semibold border-l-4 border-primary"
+                      : "text-muted-foreground hover:text-primary hover:bg-muted"
+                  }`}
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
