@@ -1,4 +1,5 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Phone, Mail, MapPin, Clock, ShoppingBag } from "lucide-react"
 import { getSession } from "@/lib/auth"
 import { ReviewForm } from "@/components/review-form"
@@ -11,8 +12,16 @@ export async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* About */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <ShoppingBag className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-3 mb-4">
+              <div className="relative w-10 h-10 flex-shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Express Net Cafe Logo"
+                  fill
+                  className="object-contain"
+                  sizes="40px"
+                />
+              </div>
               <span className="font-bold text-lg">Express Net Cafe</span>
             </div>
             <p className="text-muted-foreground text-sm">

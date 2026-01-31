@@ -116,6 +116,19 @@ export default async function DisplayRepairPage({ searchParams }: DisplayRepairP
         <section className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
+              {/* Logo */}
+              <div className="flex justify-center mb-6">
+                <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40">
+                  <Image
+                    src="/logo.png"
+                    alt="Express Net Cafe Logo"
+                    fill
+                    className="object-contain drop-shadow-lg"
+                    priority
+                    sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, 160px"
+                  />
+                </div>
+              </div>
               <h1 className="text-3xl md:text-4xl font-bold mb-4">Display Replacement Prices</h1>
               <p className="text-muted-foreground mb-6">
                 Find repair prices for all major mobile phone brands. Call us for selling prices.

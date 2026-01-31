@@ -3,6 +3,7 @@
 import React from "react"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useState } from "react"
 import { Menu, X, Phone, Search, User, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -65,10 +66,19 @@ export function Header({ user }: HeaderProps) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2">
-            <ShoppingBag className="h-8 w-8 text-primary" />
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
+              <Image
+                src="/logo.png"
+                alt="Express Net Cafe Logo"
+                fill
+                className="object-contain"
+                priority
+                sizes="(max-width: 640px) 40px, 48px"
+              />
+            </div>
             <div>
-              <span className="font-bold text-xl text-foreground">Express Net Cafe</span>
+              <span className="font-bold text-lg sm:text-xl text-foreground">Express Net Cafe</span>
               <p className="text-xs text-muted-foreground hidden sm:block">Mobile Repair & Services</p>
             </div>
           </Link>
