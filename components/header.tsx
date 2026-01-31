@@ -100,22 +100,25 @@ export function Header({ user }: HeaderProps) {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center gap-6">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`text-sm font-medium transition-colors relative pb-1 ${
-                  isActive(item.href)
-                    ? "text-primary font-semibold"
-                    : "text-muted-foreground hover:text-primary"
-                }`}
-              >
-                {item.name}
-                <span className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-opacity ${
-                  isActive(item.href) ? "opacity-100" : "opacity-0"
-                }`} />
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const active = isActive(item.href)
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors relative pb-1 ${
+                    active
+                      ? "text-primary font-semibold"
+                      : "text-muted-foreground hover:text-primary"
+                  }`}
+                >
+                  {item.name}
+                  <span className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-opacity ${
+                    active ? "opacity-100" : "opacity-0"
+                  }`} />
+                </Link>
+              )
+            })}
           </nav>
 
           {/* Right side actions */}
@@ -190,20 +193,23 @@ export function Header({ user }: HeaderProps) {
         {mobileMenuOpen && (
           <nav className="lg:hidden py-4 border-t border-border">
             <div className="flex flex-col gap-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
-                    isActive(item.href)
-                      ? "text-primary bg-primary/10 font-semibold border-l-4 border-primary"
-                      : "text-muted-foreground hover:text-primary hover:bg-muted"
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+              {navigation.map((item) => {
+                const active = isActive(item.href)
+                return (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                      active
+                        ? "text-primary bg-primary/10 font-semibold border-l-4 border-primary"
+                        : "text-muted-foreground hover:text-primary hover:bg-muted"
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                )
+              })}
             </div>
           </nav>
         )}
