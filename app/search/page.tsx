@@ -66,8 +66,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           JOIN phone_brands pb ON pm.brand_id = pb.id
           WHERE LOWER(pm.name) LIKE LOWER(${searchTerm})
              OR LOWER(pb.name) LIKE LOWER(${searchTerm})
+             OR LOWER(pm.category) LIKE LOWER(${searchTerm})
+             OR LOWER(dp.quality) LIKE LOWER(${searchTerm})
           ORDER BY pb.name, pm.name
-          LIMIT 20
+          LIMIT 50
         `
         displayResults = results as Array<{
           id: number

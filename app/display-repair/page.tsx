@@ -11,8 +11,14 @@ import { Input } from "@/components/ui/input"
 import { Phone, Search, Smartphone, AlertCircle, CheckCircle, XCircle } from "lucide-react"
 import { DisplayPriceSearch } from "@/components/display-price-search"
 
-export default async function DisplayRepairPage() {
+interface DisplayRepairPageProps {
+  searchParams: Promise<{ q?: string }>
+}
+
+export default async function DisplayRepairPage({ searchParams }: DisplayRepairPageProps) {
   const user = await getSession()
+  const params = await searchParams
+  const searchQuery = params.q || ""
   
   let brands: Array<{ id: number; name: string; logo_url: string | null }> = []
   let displayPrices: Array<{
@@ -31,29 +37,60 @@ export default async function DisplayRepairPage() {
     `
     brands = brandsResult as Array<{ id: number; name: string; logo_url: string | null }>
     
-    const displayPricesResult = await sql`
-      SELECT 
-        dp.id,
-        pb.name as brand_name,
-        pb.id as brand_id,
-        pm.name as model_name,
-        pm.image_url as model_image,
-        dp.display_type,
-        dp.quantity
-      FROM display_prices dp
-      JOIN phone_models pm ON dp.model_id = pm.id
-      JOIN phone_brands pb ON pm.brand_id = pb.id
-      ORDER BY pb.name, pm.name
-    `
-    displayPrices = displayPricesResult as Array<{
-      id: number
-      brand_name: string
-      brand_id: number
-      model_name: string
-      model_image: string | null
-      display_type: string
-      quantity: number
-    }>
+    // Build search query
+    if (searchQuery) {
+      const searchTerm = `%${searchQuery}%`
+      const displayPricesResult = await sql`
+        SELECT 
+          dp.id,
+          pb.name as brand_name,
+          pb.id as brand_id,
+          pm.name as model_name,
+          pm.image_url as model_image,
+          dp.display_type,
+          dp.quantity
+        FROM display_prices dp
+        JOIN phone_models pm ON dp.model_id = pm.id
+        JOIN phone_brands pb ON pm.brand_id = pb.id
+        WHERE LOWER(pm.name) LIKE LOWER(${searchTerm})
+           OR LOWER(pb.name) LIKE LOWER(${searchTerm})
+           OR LOWER(dp.display_type) LIKE LOWER(${searchTerm})
+        ORDER BY pb.name, pm.name
+      `
+      displayPrices = displayPricesResult as Array<{
+        id: number
+        brand_name: string
+        brand_id: number
+        model_name: string
+        model_image: string | null
+        display_type: string
+        quantity: number
+      }>
+    } else {
+      const displayPricesResult = await sql`
+        SELECT 
+          dp.id,
+          pb.name as brand_name,
+          pb.id as brand_id,
+          pm.name as model_name,
+          pm.image_url as model_image,
+          dp.display_type,
+          dp.quantity
+        FROM display_prices dp
+        JOIN phone_models pm ON dp.model_id = pm.id
+        JOIN phone_brands pb ON pm.brand_id = pb.id
+        ORDER BY pb.name, pm.name
+      `
+      displayPrices = displayPricesResult as Array<{
+        id: number
+        brand_name: string
+        brand_id: number
+        model_name: string
+        model_image: string | null
+        display_type: string
+        quantity: number
+      }>
+    }
   } catch {
     // Tables might be empty
   }
@@ -83,7 +120,7 @@ export default async function DisplayRepairPage() {
               <p className="text-muted-foreground mb-6">
                 Find repair prices for all major mobile phone brands. Call us for selling prices.
               </p>
-              <DisplayPriceSearch />
+              <DisplayPriceSearch initialQuery={searchQuery} />
             </div>
           </div>
         </section>
@@ -101,21 +138,59 @@ export default async function DisplayRepairPage() {
           </div>
         </section>
 
+        {/* Search Results Info */}
+        {searchQuery && (
+          <section className="py-4 bg-muted/20">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center justify-center gap-3">
+                <p className="text-sm">
+                  Found <strong>{displayPrices.length}</strong> result{displayPrices.length !== 1 ? 's' : ''} for &quot;<strong>{searchQuery}</strong>&quot;
+                </p>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/display-repair">Clear Search</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Brand Navigation */}
-        <section className="py-8 border-b border-border">
+        {!searchQuery && (
+        <section className="py-6 border-b border-border bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-lg font-semibold mb-4">Select Brand</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-lg font-semibold mb-4 text-center">Select Brand</h2>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
               {brands.map((brand) => (
-                <a key={brand.id} href={`#brand-${brand.id}`}>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors py-2 px-4">
-                    {brand.name}
-                  </Badge>
+                <a 
+                  key={brand.id} 
+                  href={`#brand-${brand.id}`}
+                  className="group"
+                >
+                  <Card className="cursor-pointer hover:shadow-md hover:border-primary transition-all duration-200 overflow-hidden">
+                    <CardContent className="p-2 flex flex-col items-center justify-center min-h-[70px]">
+                      {brand.logo_url ? (
+                        <div className="relative w-full h-8 mb-1">
+                          <Image
+                            src={brand.logo_url}
+                            alt={brand.name}
+                            fill
+                            className="object-contain group-hover:scale-110 transition-transform duration-200"
+                          />
+                        </div>
+                      ) : (
+                        <Smartphone className="h-6 w-6 mb-1 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                      <span className="text-[10px] font-medium text-center group-hover:text-primary transition-colors leading-tight">
+                        {brand.name}
+                      </span>
+                    </CardContent>
+                  </Card>
                 </a>
               ))}
             </div>
           </div>
         </section>
+        )}
 
         {/* Price Lists by Brand */}
         <section className="py-12">
@@ -123,16 +198,30 @@ export default async function DisplayRepairPage() {
             {Object.entries(groupedByBrand).length === 0 ? (
               <div className="text-center py-12">
                 <Smartphone className="h-16 w-16 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-xl font-semibold mb-2">No Display Prices Available</h3>
-                <p className="text-muted-foreground mb-6">
-                  Please contact us for display replacement prices.
-                </p>
-                <Button asChild>
-                  <a href="tel:0702882883">
-                    <Phone className="h-4 w-4 mr-2" />
-                    Call: 0702882883
-                  </a>
-                </Button>
+                {searchQuery ? (
+                  <>
+                    <h3 className="text-xl font-semibold mb-2">No Results Found</h3>
+                    <p className="text-muted-foreground mb-6">
+                      No models found matching &quot;{searchQuery}&quot;. Try a different search term.
+                    </p>
+                    <Button asChild>
+                      <Link href="/display-repair">View All Models</Link>
+                    </Button>
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-semibold mb-2">No Display Prices Available</h3>
+                    <p className="text-muted-foreground mb-6">
+                      Please contact us for display replacement prices.
+                    </p>
+                    <Button asChild>
+                      <a href="tel:0702882883">
+                        <Phone className="h-4 w-4 mr-2" />
+                        Call: 0702882883
+                      </a>
+                    </Button>
+                  </>
+                )}
               </div>
             ) : (
               <div className="space-y-12">
