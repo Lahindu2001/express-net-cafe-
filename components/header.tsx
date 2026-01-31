@@ -39,7 +39,12 @@ export function Header({ user }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState("")
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -49,6 +54,7 @@ export function Header({ user }: HeaderProps) {
   }
 
   const isActive = (href: string) => {
+    if (!mounted) return false
     if (href === "/") {
       return pathname === "/"
     }
@@ -105,9 +111,9 @@ export function Header({ user }: HeaderProps) {
                 }`}
               >
                 {item.name}
-                {isActive(item.href) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
-                )}
+                <span className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full transition-opacity ${
+                  isActive(item.href) ? "opacity-100" : "opacity-0"
+                }`} />
               </Link>
             ))}
           </nav>

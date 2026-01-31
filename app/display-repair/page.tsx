@@ -113,29 +113,54 @@ export default async function DisplayRepairPage({ searchParams }: DisplayRepairP
       
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-12">
-          <div className="container mx-auto px-4">
+        <section className="relative py-16 md:py-20 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/display-repair-bg.jpg"
+              alt="Display Repair Background"
+              fill
+              className="object-cover"
+              priority
+              quality={90}
+            />
+            {/* Gradient Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85" />
+            {/* Additional colored gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+          </div>
+
+          {/* Content */}
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
               {/* Logo */}
               <div className="flex justify-center mb-6">
-                <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40">
+                <div className="relative w-28 h-28 sm:w-32 sm:h-32 md:w-40 md:h-40 animate-in fade-in slide-in-from-top-4 duration-1000">
                   <Image
                     src="/logo.png"
                     alt="Express Net Cafe Logo"
                     fill
-                    className="object-contain drop-shadow-lg"
+                    className="object-contain drop-shadow-2xl"
                     priority
                     sizes="(max-width: 640px) 112px, (max-width: 768px) 128px, 160px"
                   />
                 </div>
               </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">Display Replacement Prices</h1>
-              <p className="text-muted-foreground mb-6">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
+                Display Replacement Prices
+              </h1>
+              <p className="text-muted-foreground mb-6 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
                 Find repair prices for all major mobile phone brands. Call us for selling prices.
               </p>
-              <DisplayPriceSearch initialQuery={searchQuery} />
+              <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
+                <DisplayPriceSearch initialQuery={searchQuery} />
+              </div>
             </div>
           </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
         </section>
 
         {/* Info Banner */}
