@@ -24,7 +24,7 @@ const categoryIcons: Record<string, React.ElementType> = {
 export default async function AccessoriesPage() {
   const user = await getSession()
   
-  let categories: Array<{ id: number; name: string; icon: string | null }> = []
+  let categories: Array<{ id: number; name: string; icon: string | null; image_url: string | null }> = []
   let accessories: Array<{
     id: number
     category_id: number
@@ -40,7 +40,7 @@ export default async function AccessoriesPage() {
     const categoriesResult = await sql`
       SELECT * FROM accessory_categories ORDER BY name
     `
-    categories = categoriesResult as Array<{ id: number; name: string; icon: string | null }>
+    categories = categoriesResult as Array<{ id: number; name: string; icon: string | null; image_url: string | null }>
     
     const accessoriesResult = await sql`
       SELECT 
@@ -143,18 +143,39 @@ export default async function AccessoriesPage() {
         </section>
 
         {/* Category Navigation */}
-        <section className="py-8 border-b border-border">
+        <section className="py-6 border-b border-border bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-lg font-semibold mb-4">Categories</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-lg font-semibold mb-4 text-center">Categories</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-3">
               {categories.map((category) => {
                 const Icon = categoryIcons[category.name] || Package
                 return (
-                  <a key={category.id} href={`#category-${category.id}`}>
-                    <Badge variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors py-2 px-4 flex items-center gap-2">
-                      <Icon className="h-4 w-4" />
-                      {category.name}
-                    </Badge>
+                  <a 
+                    key={category.id} 
+                    href={`#category-${category.id}`}
+                    className="group"
+                  >
+                    <Card className="cursor-pointer hover:shadow-md hover:border-primary transition-all duration-200 overflow-hidden h-full">
+                      <CardContent className="p-3 flex flex-col items-center justify-center min-h-[90px]">
+                        {category.image_url ? (
+                          <div className="relative w-full h-12 mb-2">
+                            <Image
+                              src={category.image_url}
+                              alt={category.name}
+                              fill
+                              className="object-contain group-hover:scale-110 transition-transform duration-200"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500/10 to-green-600/10 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform duration-200">
+                            <Icon className="h-6 w-6 text-green-600" />
+                          </div>
+                        )}
+                        <span className="text-xs font-medium text-center group-hover:text-primary transition-colors leading-tight">
+                          {category.name}
+                        </span>
+                      </CardContent>
+                    </Card>
                   </a>
                 )
               })}

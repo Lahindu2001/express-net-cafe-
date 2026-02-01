@@ -7,7 +7,7 @@ import sql from "@/lib/db"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Headphones, Sigma as Sim, Wifi, Printer, Star, Phone, MapPin, ArrowRight, Shield, Clock, ThumbsUp, CheckCircle, Award } from "lucide-react"
+import { Smartphone, Battery, Headphones, Sigma as Sim, Wifi, Printer, Star, Phone, MapPin, ArrowRight, Shield, Clock, ThumbsUp, CheckCircle, Award } from "lucide-react"
 
 async function getApprovedReviews() {
   try {
@@ -28,10 +28,17 @@ async function getApprovedReviews() {
 const categories = [
   {
     title: "Display Repair",
-    description: "Samsung, Apple, Huawei, Honor & more",
+    description: "Samsung, Apple, Huawei, Honor & more • 1 Month Warranty",
     icon: Smartphone,
     href: "/display-repair",
     color: "bg-blue-500/10 text-blue-600",
+  },
+  {
+    title: "Battery Replacement",
+    description: "Original & compatible batteries • 1 Month Warranty",
+    icon: Battery,
+    href: "/battery-replacement",
+    color: "bg-red-500/10 text-red-600",
   },
   {
     title: "Accessories",
@@ -138,13 +145,28 @@ export default async function HomePage() {
                 </div>
               </div>
               
+              {/* Since 2010 Badge */}
+              <div className="flex justify-center mb-6 animate-in fade-in slide-in-from-top-4 duration-1000 delay-50">
+                <div className="relative inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-amber-500/20 via-yellow-500/20 to-amber-500/20 border-2 border-amber-500/50 backdrop-blur-sm shadow-lg">
+                  <Award className="h-6 w-6 text-amber-600 animate-pulse" />
+                  <div className="flex flex-col items-start">
+                    <span className="text-xs font-medium text-amber-700 uppercase tracking-wider">Established</span>
+                    <span className="text-lg font-bold text-amber-900">Since 2010</span>
+                  </div>
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-r from-amber-400/0 via-amber-400/10 to-amber-400/0 animate-pulse" />
+                </div>
+              </div>
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 text-balance animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
                 Your Trusted Mobile
                 <br />
                 <span className="text-primary">Repair & Service Center</span>
               </h1>
-              <p className="text-lg md:text-xl text-muted-foreground mb-8 text-pretty max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
-                Expert display replacements, quality accessories, SIM cards, routers, and printing services all under one roof.
+              <p className="text-lg md:text-xl text-muted-foreground mb-4 text-pretty max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+                Expert phone repairing, quality accessories, SIM cards, routers, and printing services all under one roof.
+              </p>
+              <p className="text-base md:text-lg text-muted-foreground/80 mb-8 text-pretty max-w-xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
+                <span className="font-semibold text-amber-700">15+ years</span> of excellence • Serving <span className="font-semibold text-amber-700">1 lakh+</span> satisfied customers
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                 <Button asChild size="lg" className="gap-2 shadow-lg hover:shadow-xl transition-all">
@@ -189,11 +211,11 @@ export default async function HomePage() {
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">5+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">15+</div>
                 <div className="text-sm md:text-base text-muted-foreground">Years Experience</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">1000+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">100,000+</div>
                 <div className="text-sm md:text-base text-muted-foreground">Happy Customers</div>
               </div>
               <div className="text-center">
@@ -218,7 +240,7 @@ export default async function HomePage() {
                 From mobile repairs to accessories, we have got everything you need
               </p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
               {categories.map((category, index) => (
                 <Link key={category.title} href={category.href} className="group">
                   <Card className="h-full hover:shadow-2xl hover:border-primary transition-all duration-300 cursor-pointer hover:-translate-y-2 bg-gradient-to-br from-background to-muted/20">

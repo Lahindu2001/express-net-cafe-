@@ -149,9 +149,15 @@ export default async function DisplayRepairPage({ searchParams }: DisplayRepairP
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
                 Display Replacement Prices
               </h1>
-              <p className="text-muted-foreground mb-6 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+              <p className="text-muted-foreground mb-3 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
                 Find repair prices for all major mobile phone brands. Call us for selling prices.
               </p>
+              <div className="flex items-center justify-center gap-2 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
+                <Badge className="bg-green-500/20 text-green-700 border-green-500/50 px-4 py-1.5 text-sm">
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  1 Month Warranty
+                </Badge>
+              </div>
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                 <DisplayPriceSearch initialQuery={searchQuery} />
               </div>

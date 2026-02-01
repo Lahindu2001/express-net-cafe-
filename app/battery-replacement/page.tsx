@@ -152,9 +152,15 @@ export default async function BatteryReplacementPage({ searchParams }: BatteryRe
               <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
                 Battery Replacement
               </h1>
-              <p className="text-muted-foreground mb-6 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
+              <p className="text-muted-foreground mb-3 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
                 Original and compatible batteries for all phone models
               </p>
+              <div className="flex items-center justify-center gap-2 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
+                <Badge className="bg-green-500/20 text-green-700 border-green-500/50 px-4 py-1.5 text-sm">
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  1 Month Warranty
+                </Badge>
+              </div>
 
               {/* Search */}
               <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
@@ -180,21 +186,59 @@ export default async function BatteryReplacementPage({ searchParams }: BatteryRe
           <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
         </section>
 
+        {/* Search Results Info */}
+        {searchQuery && (
+          <section className="py-4 bg-muted/20">
+            <div className="container mx-auto px-4">
+              <div className="flex items-center justify-center gap-3">
+                <p className="text-sm">
+                  Found <strong>{batteryPrices.length}</strong> result{batteryPrices.length !== 1 ? 's' : ''} for &quot;<strong>{searchQuery}</strong>&quot;
+                </p>
+                <Button variant="outline" size="sm" asChild>
+                  <Link href="/battery-replacement">Clear Search</Link>
+                </Button>
+              </div>
+            </div>
+          </section>
+        )}
+
         {/* Brand Navigation */}
-        <section className="py-8 border-b border-border">
+        {!searchQuery && (
+        <section className="py-6 border-b border-border bg-muted/30">
           <div className="container mx-auto px-4">
-            <h2 className="text-lg font-semibold mb-4">Phone Brands</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-lg font-semibold mb-4 text-center">Select Brand</h2>
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-2">
               {brands.map((brand) => (
-                <a key={brand.id} href={`#brand-${brand.id}`}>
-                  <Badge variant="outline" className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors py-2 px-4">
-                    {brand.name}
-                  </Badge>
+                <a 
+                  key={brand.id} 
+                  href={`#brand-${brand.id}`}
+                  className="group"
+                >
+                  <Card className="cursor-pointer hover:shadow-md hover:border-primary transition-all duration-200 overflow-hidden">
+                    <CardContent className="p-2 flex flex-col items-center justify-center min-h-[70px]">
+                      {brand.logo_url ? (
+                        <div className="relative w-full h-8 mb-1">
+                          <Image
+                            src={brand.logo_url}
+                            alt={brand.name}
+                            fill
+                            className="object-contain group-hover:scale-110 transition-transform duration-200"
+                          />
+                        </div>
+                      ) : (
+                        <Battery className="h-6 w-6 mb-1 text-muted-foreground group-hover:text-primary transition-colors" />
+                      )}
+                      <span className="text-[10px] font-medium text-center group-hover:text-primary transition-colors leading-tight">
+                        {brand.name}
+                      </span>
+                    </CardContent>
+                  </Card>
                 </a>
               ))}
             </div>
           </div>
         </section>
+        )}
 
         {/* Battery Prices */}
         <section className="py-12">
