@@ -21,7 +21,7 @@ export function UserActions({ id, role }: UserActionsProps) {
   const [loading, setLoading] = useState(false)
 
   const handleToggleRole = async () => {
-    const newRole = role === "admin" ? "user" : "admin"
+    const newRole = role === "admin" ? "customer" : "admin"
     setLoading(true)
     try {
       await fetch(`/api/admin/users/${id}`, {
