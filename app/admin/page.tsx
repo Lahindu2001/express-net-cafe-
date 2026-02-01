@@ -3,12 +3,13 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus } from "lucide-react"
+import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery } from "lucide-react"
 
 async function getStats() {
   try {
     const [
       displayCount,
+      batteryCount,
       accessoryCount,
       simCount,
       routerCount,
@@ -21,6 +22,7 @@ async function getStats() {
       lowStockRouters,
     ] = await Promise.all([
       sql`SELECT COUNT(*) as count FROM display_prices`,
+      sql`SELECT COUNT(*) as count FROM battery_prices`,
       sql`SELECT COUNT(*) as count FROM accessories`,
       sql`SELECT COUNT(*) as count FROM sim_cards`,
       sql`SELECT COUNT(*) as count FROM routers`,
@@ -35,6 +37,7 @@ async function getStats() {
 
     return {
       displays: Number(displayCount[0]?.count || 0),
+      batteries: Number(batteryCount[0]?.count || 0),
       accessories: Number(accessoryCount[0]?.count || 0),
       sims: Number(simCount[0]?.count || 0),
       routers: Number(routerCount[0]?.count || 0),
@@ -47,6 +50,7 @@ async function getStats() {
   } catch {
     return {
       displays: 0,
+      batteries: 0,
       accessories: 0,
       sims: 0,
       routers: 0,
@@ -69,6 +73,13 @@ export default async function AdminDashboard() {
       icon: Smartphone,
       color: "text-blue-600",
       bgColor: "bg-blue-500/10",
+    },
+    {
+      title: "Battery Prices",
+      value: stats.batteries,
+      icon: Battery,
+      color: "text-red-600",
+      bgColor: "bg-red-500/10",
     },
     {
       title: "Accessories",
@@ -154,6 +165,16 @@ export default async function AdminDashboard() {
                     <span className="font-semibold">Add Display Price</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New phone model</span>
+                </Link>
+              </Button>
+
+              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+                <Link href="/admin/battery-prices/new">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Battery className="h-4 w-4" />
+                    <span className="font-semibold">Add Battery Price</span>
+                  </div>
+                  <span className="text-xs text-muted-foreground">New battery model</span>
                 </Link>
               </Button>
 
