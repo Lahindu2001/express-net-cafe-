@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { getSession } from "@/lib/auth"
@@ -14,15 +15,43 @@ export default async function ContactPage() {
       
       <main className="flex-1">
         {/* Hero */}
-        <section className="bg-gradient-to-br from-primary/10 via-background to-accent/10 py-12">
-          <div className="container mx-auto px-4">
+        <section className="relative py-16 md:py-20 overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <Image
+              src="/contact-bg.jpg"
+              alt="Contact Us Background"
+              fill
+              className="object-cover"
+              priority
+              quality={90}
+            />
+            {/* Gradient Overlay for better text readability */}
+            <div className="absolute inset-0 bg-gradient-to-br from-background/95 via-background/90 to-background/85" />
+            {/* Additional colored gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+          </div>
+
+          {/* Content */}
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl mx-auto text-center">
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">Contact Us</h1>
-              <p className="text-muted-foreground">
+              <div className="flex justify-center mb-6">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary/20 to-primary/30 flex items-center justify-center backdrop-blur-sm border border-primary/30 animate-in fade-in slide-in-from-top-4 duration-1000">
+                  <Mail className="h-10 w-10 text-primary" />
+                </div>
+              </div>
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-100">
+                Contact Us
+              </h1>
+              <p className="text-muted-foreground mb-6 text-lg animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-200">
                 Get in touch with us for all your mobile repair and service needs.
               </p>
             </div>
           </div>
+
+          {/* Decorative Elements */}
+          <div className="absolute top-20 left-10 w-20 h-20 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-20 right-10 w-32 h-32 bg-accent/5 rounded-full blur-3xl" />
         </section>
 
         {/* Contact Info */}
