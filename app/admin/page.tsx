@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery } from "lucide-react"
+import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery, Tv } from "lucide-react"
 
 async function getStats() {
   try {
@@ -13,6 +13,7 @@ async function getStats() {
       accessoryCount,
       simCount,
       routerCount,
+      televisionCount,
       serviceCount,
       userCount,
       reviewCount,
@@ -20,12 +21,15 @@ async function getStats() {
       lowStockAccessories,
       lowStockSims,
       lowStockRouters,
+      lowStockTelevisions,
+      visitorResult,
     ] = await Promise.all([
       sql`SELECT COUNT(*) as count FROM display_prices`,
       sql`SELECT COUNT(*) as count FROM battery_prices`,
       sql`SELECT COUNT(*) as count FROM accessories`,
       sql`SELECT COUNT(*) as count FROM sim_cards`,
       sql`SELECT COUNT(*) as count FROM routers`,
+      sql`SELECT COUNT(*) as count FROM televisions`,
       sql`SELECT COUNT(*) as count FROM services`,
       sql`SELECT COUNT(*) as count FROM users`,
       sql`SELECT COUNT(*) as count FROM reviews WHERE is_approved = true`,
@@ -33,6 +37,8 @@ async function getStats() {
       sql`SELECT COUNT(*) as count FROM accessories WHERE quantity <= 5`,
       sql`SELECT COUNT(*) as count FROM sim_cards WHERE quantity <= 10`,
       sql`SELECT COUNT(*) as count FROM routers WHERE quantity <= 3`,
+      sql`SELECT COUNT(*) as count FROM televisions WHERE quantity <= 3`,
+      sql`SELECT stat_value FROM site_stats WHERE stat_name = 'total_visitors'`,
     ])
 
     return {
@@ -41,11 +47,13 @@ async function getStats() {
       accessories: Number(accessoryCount[0]?.count || 0),
       sims: Number(simCount[0]?.count || 0),
       routers: Number(routerCount[0]?.count || 0),
+      televisions: Number(televisionCount[0]?.count || 0),
       services: Number(serviceCount[0]?.count || 0),
       users: Number(userCount[0]?.count || 0),
       reviews: Number(reviewCount[0]?.count || 0),
       pendingReviews: Number(pendingReviews[0]?.count || 0),
-      lowStock: Number(lowStockAccessories[0]?.count || 0) + Number(lowStockSims[0]?.count || 0) + Number(lowStockRouters[0]?.count || 0),
+      visitors: Number(visitorResult[0]?.stat_value || 0),
+      lowStock: Number(lowStockAccessories[0]?.count || 0) + Number(lowStockSims[0]?.count || 0) + Number(lowStockRouters[0]?.count || 0) + Number(lowStockTelevisions[0]?.count || 0),
     }
   } catch {
     return {
@@ -54,10 +62,12 @@ async function getStats() {
       accessories: 0,
       sims: 0,
       routers: 0,
+      televisions: 0,
       services: 0,
       users: 0,
       reviews: 0,
       pendingReviews: 0,
+      visitors: 0,
       lowStock: 0,
     }
   }
@@ -108,6 +118,14 @@ export default async function AdminDashboard() {
       href: "/admin/routers",
     },
     {
+      title: "Televisions",
+      value: stats.televisions,
+      icon: Tv,
+      color: "text-indigo-600",
+      bgColor: "bg-indigo-500/10",
+      href: "/admin/televisions",
+    },
+    {
       title: "Services",
       value: stats.services,
       icon: Wrench,
@@ -122,6 +140,14 @@ export default async function AdminDashboard() {
       color: "text-cyan-600",
       bgColor: "bg-cyan-500/10",
       href: "/admin/users",
+    },
+    {
+      title: "Website Visitors",
+      value: stats.visitors.toLocaleString(),
+      icon: TrendingUp,
+      color: "text-emerald-600",
+      bgColor: "bg-emerald-500/10",
+      href: "/admin",
     },
     {
       title: "Reviews",
@@ -215,6 +241,16 @@ export default async function AdminDashboard() {
                     <span className="font-semibold">Add Router</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New router model</span>
+                </Link>
+              </Button>
+
+              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+                <Link href="/admin/televisions/new">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Tv className="h-4 w-4" />
+                    <span className="font-semibold">Add Television</span>
+                  </div>
+                  <span className="text-xs text-muted-foreground">New TV model</span>
                 </Link>
               </Button>
 

@@ -25,40 +25,59 @@ export async function Footer() {
               <span className="font-bold text-lg">Express Net Cafe</span>
             </div>
             <p className="text-muted-foreground text-sm">
-              Your trusted destination for mobile phone repairs, accessories, SIM cards, routers, and printing services.
+              Since 2010, your trusted destination for mobile phone repairs, accessories, SIM cards, routers, and printing services.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
             <h3 className="font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/display-repair" className="text-muted-foreground hover:text-primary transition-colors">
-                  Display Repair
-                </Link>
-              </li>
-              <li>
-                <Link href="/accessories" className="text-muted-foreground hover:text-primary transition-colors">
-                  Accessories
-                </Link>
-              </li>
-              <li>
-                <Link href="/sim-cards" className="text-muted-foreground hover:text-primary transition-colors">
-                  SIM Cards
-                </Link>
-              </li>
-              <li>
-                <Link href="/routers" className="text-muted-foreground hover:text-primary transition-colors">
-                  Routers
-                </Link>
-              </li>
-              <li>
-                <Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">
-                  Services
-                </Link>
-              </li>
-            </ul>
+            <div className="grid grid-cols-2 gap-x-4">
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link href="/display-repair" className="text-muted-foreground hover:text-primary transition-colors">
+                    Display Repair
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/battery-replacement" className="text-muted-foreground hover:text-primary transition-colors">
+                    Battery Replacement
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/accessories" className="text-muted-foreground hover:text-primary transition-colors">
+                    Accessories
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/sim-cards" className="text-muted-foreground hover:text-primary transition-colors">
+                    SIM Cards
+                  </Link>
+                </li>
+              </ul>
+              <ul className="space-y-2 text-sm">
+                <li>
+                  <Link href="/routers" className="text-muted-foreground hover:text-primary transition-colors">
+                    Routers
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/televisions" className="text-muted-foreground hover:text-primary transition-colors">
+                    Televisions
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/services" className="text-muted-foreground hover:text-primary transition-colors">
+                    Services
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="text-muted-foreground hover:text-primary transition-colors">
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
 
           {/* Contact Info */}

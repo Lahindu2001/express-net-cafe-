@@ -15,7 +15,8 @@ import {
   Home,
   LogOut,
   ShoppingBag,
-  Battery
+  Battery,
+  Tv
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -38,6 +39,7 @@ const navigation = [
   { name: "SIM Cards", href: "/admin/sim-cards", icon: CreditCard },
   { name: "SIM Providers", href: "/admin/sim-providers", icon: CreditCard },
   { name: "Routers", href: "/admin/routers", icon: Wifi },
+  { name: "Televisions", href: "/admin/televisions", icon: Tv },
   { name: "Services", href: "/admin/services", icon: Wrench },
   { name: "Reviews", href: "/admin/reviews", icon: Star },
   { name: "Users", href: "/admin/users", icon: Users },

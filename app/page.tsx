@@ -7,7 +7,7 @@ import sql from "@/lib/db"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Battery, Headphones, Sigma as Sim, Wifi, Printer, Star, Phone, MapPin, ArrowRight, Shield, Clock, ThumbsUp, CheckCircle, Award } from "lucide-react"
+import { Smartphone, Battery, Headphones, Sigma as Sim, Wifi, Printer, Star, Phone, MapPin, ArrowRight, Shield, Clock, ThumbsUp, CheckCircle, Award, Tv } from "lucide-react"
 
 async function getApprovedReviews() {
   try {
@@ -60,6 +60,13 @@ const categories = [
     icon: Wifi,
     href: "/routers",
     color: "bg-purple-500/10 text-purple-600",
+  },
+  {
+    title: "Televisions",
+    description: "Wide selection of televisions",
+    icon: Tv,
+    href: "/televisions",
+    color: "bg-indigo-500/10 text-indigo-600",
   },
   {
     title: "Photocopy & Print",
@@ -274,7 +281,7 @@ export default async function HomePage() {
                 From mobile repairs to accessories, we have got everything you need
               </p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-7 gap-6">
               {categories.map((category, index) => (
                 <Link key={category.title} href={category.href} className="group">
                   <Card className="h-full hover:shadow-2xl hover:border-primary transition-all duration-300 cursor-pointer hover:-translate-y-2 bg-gradient-to-br from-background to-muted/20">

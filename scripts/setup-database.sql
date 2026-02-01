@@ -129,6 +129,18 @@ CREATE TABLE IF NOT EXISTS routers (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Televisions table
+CREATE TABLE IF NOT EXISTS televisions (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  price DECIMAL(10, 2) NOT NULL,
+  quantity INTEGER DEFAULT 0 CHECK (quantity >= 0),
+  image_url VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Services table (photocopy, printout, etc.)
 CREATE TABLE IF NOT EXISTS services (
   id SERIAL PRIMARY KEY,

@@ -32,6 +32,7 @@ const navigation = [
   { name: "Accessories", href: "/accessories" },
   { name: "SIM Cards", href: "/sim-cards" },
   { name: "Routers", href: "/routers" },
+  { name: "Televisions", href: "/televisions" },
   { name: "Services", href: "/services" },
   { name: "Contact", href: "/contact" },
 ]
