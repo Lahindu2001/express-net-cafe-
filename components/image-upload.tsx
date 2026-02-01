@@ -87,7 +87,8 @@ export function ImageUpload({
 
   const clearImage = () => {
     setPreviewUrl('');
-    onUpload('');
+    if (onUpload) onUpload('');
+    if (onChange) onChange('');
   };
 
   return (
