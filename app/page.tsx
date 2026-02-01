@@ -92,6 +92,8 @@ export default async function HomePage() {
   const user = await getSession()
   
   let reviews: any[] = []
+  let phoneModelsCount = 0
+  
   try {
     reviews = await sql`
       SELECT r.id, u.name as user_name, r.rating, r.comment
@@ -103,6 +105,15 @@ export default async function HomePage() {
     `
   } catch {
     // Reviews table might be empty
+  }
+
+  try {
+    const modelCountResult = await sql`
+      SELECT COUNT(*) as count FROM phone_models
+    `
+    phoneModelsCount = Number(modelCountResult[0]?.count || 0)
+  } catch {
+    // Table might be empty
   }
 
   return (
@@ -166,7 +177,7 @@ export default async function HomePage() {
                 Expert phone repairing, quality accessories, SIM cards, routers, and printing services all under one roof.
               </p>
               <p className="text-base md:text-lg text-muted-foreground/80 mb-8 text-pretty max-w-xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-250">
-                <span className="font-semibold text-amber-700">15+ years</span> of excellence • Serving <span className="font-semibold text-amber-700">1 lakh+</span> satisfied customers
+                <span className="font-semibold text-amber-700">15+ years</span> of excellence • Serving <span className="font-semibold text-amber-700">100,000+</span> satisfied customers
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300">
                 <Button asChild size="lg" className="gap-2 shadow-lg hover:shadow-xl transition-all">
@@ -219,7 +230,7 @@ export default async function HomePage() {
                 <div className="text-sm md:text-base text-muted-foreground">Happy Customers</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">50+</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{phoneModelsCount}+</div>
                 <div className="text-sm md:text-base text-muted-foreground">Phone Models</div>
               </div>
               <div className="text-center">
