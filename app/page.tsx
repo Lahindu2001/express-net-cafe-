@@ -93,6 +93,7 @@ export default async function HomePage() {
   
   let reviews: any[] = []
   let phoneModelsCount = 0
+  let visitorCount = 0
   
   try {
     reviews = await sql`
@@ -114,6 +115,24 @@ export default async function HomePage() {
     phoneModelsCount = Number(modelCountResult[0]?.count || 0)
   } catch {
     // Table might be empty
+  }
+
+  try {
+    // Increment visitor count
+    await sql`
+      INSERT INTO site_stats (stat_name, stat_value) 
+      VALUES ('total_visitors', 1)
+      ON CONFLICT (stat_name) 
+      DO UPDATE SET stat_value = site_stats.stat_value + 1, updated_at = CURRENT_TIMESTAMP
+    `
+    
+    // Get current visitor count
+    const visitorResult = await sql`
+      SELECT stat_value FROM site_stats WHERE stat_name = 'total_visitors'
+    `
+    visitorCount = Number(visitorResult[0]?.stat_value || 0)
+  } catch {
+    // Table might not exist yet
   }
 
   return (
@@ -220,7 +239,7 @@ export default async function HomePage() {
         {/* Stats Section */}
         <section className="py-16 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 border-y border-border">
           <div className="container mx-auto px-4">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-8 max-w-7xl mx-auto">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-primary mb-2">15+</div>
                 <div className="text-sm md:text-base text-muted-foreground">Years Experience</div>
@@ -232,6 +251,10 @@ export default async function HomePage() {
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{phoneModelsCount}+</div>
                 <div className="text-sm md:text-base text-muted-foreground">Phone Models</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{visitorCount.toLocaleString()}+</div>
+                <div className="text-sm md:text-base text-muted-foreground">Website Visitors</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-primary mb-2">12/7</div>

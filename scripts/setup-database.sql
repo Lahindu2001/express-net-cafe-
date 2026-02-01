@@ -405,6 +405,19 @@ INSERT INTO services (name, description, price, price_unit, icon) VALUES
   ('Display Replacement', 'Mobile phone display replacement service', NULL, 'varies by model', 'smartphone')
 ON CONFLICT DO NOTHING;
 
+-- Site statistics table for tracking visitors
+CREATE TABLE IF NOT EXISTS site_stats (
+  id SERIAL PRIMARY KEY,
+  stat_name VARCHAR(50) UNIQUE NOT NULL,
+  stat_value BIGINT DEFAULT 0,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Initialize visitor count
+INSERT INTO site_stats (stat_name, stat_value) VALUES 
+  ('total_visitors', 0)
+ON CONFLICT (stat_name) DO NOTHING;
+
 -- Create admin user (password: admin123 - should be changed)
 INSERT INTO users (name, email, password_hash, role) VALUES 
   ('Admin', 'admin@expressnetcafe.com', '$2b$10$YourHashedPasswordHere', 'admin')
