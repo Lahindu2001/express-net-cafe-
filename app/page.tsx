@@ -234,7 +234,7 @@ export default async function HomePage() {
                 <div className="text-sm md:text-base text-muted-foreground">Phone Models</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">24/7</div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">12/7</div>
                 <div className="text-sm md:text-base text-muted-foreground">Support Available</div>
               </div>
             </div>
