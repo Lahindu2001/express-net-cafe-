@@ -15,6 +15,7 @@ type SimCardWithProvider = {
   provider_name: string
   provider_logo: string | null
   type: string
+  description: string | null
   price: number
   quantity: number
 }
@@ -38,6 +39,7 @@ export default async function SimCardsPage() {
         sp.name as provider_name,
         sp.logo_url as provider_logo,
         s.type,
+        s.description,
         s.price,
         s.quantity
       FROM sim_cards s
@@ -52,6 +54,7 @@ export default async function SimCardsPage() {
       provider_name: item.provider_name || '',
       provider_logo: item.provider_logo || null,
       type: item.type,
+      description: item.description || null,
       price: item.price,
       quantity: item.quantity
     })) as SimCardWithProvider[]
@@ -136,16 +139,16 @@ export default async function SimCardsPage() {
         {/* Provider Navigation */}
         <section className="py-8 border-b border-border">
           <div className="container mx-auto px-4">
-            <h2 className="text-lg font-semibold mb-4">Mobile Operators</h2>
-            <div className="flex flex-wrap gap-2">
+            <h2 className="text-xl font-semibold mb-6">Mobile Operators</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {providers.map((provider) => (
-                <a key={provider.id} href={`#provider-${provider.id}`}>
+                <a key={provider.id} href={`#provider-${provider.id}`} className="block">
                   <Badge 
                     variant="outline" 
-                    className={`cursor-pointer transition-colors py-2 px-4 flex items-center gap-2 ${providerColors[provider.name] || ''}`}
+                    className={`cursor-pointer transition-all hover:scale-105 py-3 px-6 flex items-center justify-center gap-3 text-base font-medium w-full ${providerColors[provider.name] || ''}`}
                   >
                     {provider.logo_url && (
-                      <div className="w-4 h-4 relative">
+                      <div className="w-6 h-6 relative flex-shrink-0">
                         <Image
                           src={provider.logo_url}
                           alt={`${provider.name} logo`}
@@ -154,8 +157,8 @@ export default async function SimCardsPage() {
                         />
                       </div>
                     )}
-                    <Smartphone className="h-4 w-4" />
-                    {provider.name}
+                    <Smartphone className="h-5 w-5 flex-shrink-0" />
+                    <span className="whitespace-nowrap">{provider.name}</span>
                   </Badge>
                 </a>
               ))}
@@ -205,17 +208,22 @@ export default async function SimCardsPage() {
                       <CardContent className="pt-6">
                         <div className="space-y-4">
                           {sims.map((sim) => (
-                            <div key={sim.id} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-                              <div>
-                                <p className="font-medium">{sim.type}</p>
-                                {sim.quantity > 0 ? (
-                                  <p className="text-sm text-muted-foreground">{sim.quantity} available</p>
-                                ) : (
-                                  <p className="text-sm text-destructive">Out of stock</p>
-                                )}
-                              </div>
-                              <div className="text-right">
-                                <p className="font-bold text-primary">Rs. {sim.price}</p>
+                            <div key={sim.id} className="p-4 bg-muted/50 rounded-lg space-y-2">
+                              <div className="flex items-start justify-between">
+                                <div className="flex-1">
+                                  <p className="font-medium text-lg">{sim.type}</p>
+                                  {sim.description && (
+                                    <p className="text-sm text-muted-foreground mt-1">{sim.description}</p>
+                                  )}
+                                  {sim.quantity > 0 ? (
+                                    <p className="text-sm text-muted-foreground mt-1">{sim.quantity} available</p>
+                                  ) : (
+                                    <p className="text-sm text-destructive mt-1">Out of stock</p>
+                                  )}
+                                </div>
+                                <div className="text-right ml-4">
+                                  <p className="font-bold text-primary text-lg">Rs. {sim.price}</p>
+                                </div>
                               </div>
                             </div>
                           ))}
