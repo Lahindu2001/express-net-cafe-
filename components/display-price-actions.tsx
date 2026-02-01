@@ -159,6 +159,7 @@ export function DisplayPriceActions({ id, quantity, price, displayType, notes }:
                 <Input
                   id="edit-quantity"
                   type="number"
+                  min="0"
                   value={editQuantity}
                   onChange={(e) => setEditQuantity(e.target.value)}
                 />

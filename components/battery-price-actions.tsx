@@ -148,6 +148,7 @@ export function BatteryPriceActions({ batteryPrice }: BatteryPriceActionsProps) 
               <Input
                 id="quantity"
                 type="number"
+                min="0"
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               />

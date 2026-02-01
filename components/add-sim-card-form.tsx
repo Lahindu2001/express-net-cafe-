@@ -260,6 +260,7 @@ export function AddSimCardForm({ providers: initialProviders }: AddSimCardFormPr
                 <Input
                   id="quantity"
                   type="number"
+                  min="0"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="0"

@@ -265,6 +265,7 @@ export function AddRouterForm({ providers: initialProviders }: AddRouterFormProp
                 <Input
                   id="quantity"
                   type="number"
+                  min="0"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="0"

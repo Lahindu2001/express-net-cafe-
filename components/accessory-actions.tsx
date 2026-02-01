@@ -168,6 +168,7 @@ export function AccessoryActions({
                 <Input
                   id="edit-quantity"
                   type="number"
+                  min="0"
                   value={editQuantity}
                   onChange={(e) => setEditQuantity(e.target.value)}
                 />

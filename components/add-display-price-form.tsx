@@ -442,6 +442,7 @@ export function AddDisplayPriceForm({ brands: initialBrands, models: initialMode
                 <Input
                   id="quantity"
                   type="number"
+                  min="0"
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
                   placeholder="0"

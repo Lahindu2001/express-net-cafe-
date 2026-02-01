@@ -206,6 +206,7 @@ export function AddBatteryPriceForm({ brands, models }: AddBatteryPriceFormProps
             <Input
               id="quantity"
               type="number"
+              min="0"
               placeholder="10"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
