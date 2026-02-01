@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery, Tv } from "lucide-react"
+import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery, Tv, Award } from "lucide-react"
 
 async function getStats() {
   try {
@@ -14,6 +14,7 @@ async function getStats() {
       simCount,
       routerCount,
       televisionCount,
+      achievementCount,
       serviceCount,
       userCount,
       reviewCount,
@@ -30,6 +31,7 @@ async function getStats() {
       sql`SELECT COUNT(*) as count FROM sim_cards`,
       sql`SELECT COUNT(*) as count FROM routers`,
       sql`SELECT COUNT(*) as count FROM televisions`,
+      sql`SELECT COUNT(*) as count FROM achievements`,
       sql`SELECT COUNT(*) as count FROM services`,
       sql`SELECT COUNT(*) as count FROM users`,
       sql`SELECT COUNT(*) as count FROM reviews WHERE is_approved = true`,
@@ -48,6 +50,7 @@ async function getStats() {
       sims: Number(simCount[0]?.count || 0),
       routers: Number(routerCount[0]?.count || 0),
       televisions: Number(televisionCount[0]?.count || 0),
+      achievements: Number(achievementCount[0]?.count || 0),
       services: Number(serviceCount[0]?.count || 0),
       users: Number(userCount[0]?.count || 0),
       reviews: Number(reviewCount[0]?.count || 0),
@@ -63,6 +66,7 @@ async function getStats() {
       sims: 0,
       routers: 0,
       televisions: 0,
+      achievements: 0,
       services: 0,
       users: 0,
       reviews: 0,
@@ -132,6 +136,14 @@ export default async function AdminDashboard() {
       color: "text-pink-600",
       bgColor: "bg-pink-500/10",
       href: "/admin/services",
+    },
+    {
+      title: "Achievements",
+      value: stats.achievements,
+      icon: Award,
+      color: "text-amber-600",
+      bgColor: "bg-amber-500/10",
+      href: "/admin/achievements",
     },
     {
       title: "Users",

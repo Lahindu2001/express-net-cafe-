@@ -91,7 +91,7 @@ const features = [
   {
     icon: ThumbsUp,
     title: "Expert Technicians",
-    description: "Experienced professionals at your service",
+    description: "16+ years experience with NVQ4 certified professionals",
   },
 ]
 
@@ -99,6 +99,7 @@ export default async function HomePage() {
   const user = await getSession()
   
   let reviews: any[] = []
+  let achievements: any[] = []
   let phoneModelsCount = 0
   let visitorCount = 0
   
@@ -113,6 +114,15 @@ export default async function HomePage() {
     `
   } catch {
     // Reviews table might be empty
+  }
+
+  try {
+    achievements = await sql`
+      SELECT * FROM achievements ORDER BY year DESC, created_at DESC
+    `
+  } catch (error) {
+    console.error('Failed to fetch achievements:', error)
+    achievements = []
   }
 
   try {
@@ -321,6 +331,125 @@ export default async function HomePage() {
                   </CardHeader>
                 </Card>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Achievements & Awards Section */}
+        <section className="py-20 bg-gradient-to-br from-amber-50/50 via-background to-yellow-50/30 dark:from-amber-950/10 dark:via-background dark:to-yellow-950/10">
+          <div className="container mx-auto px-4">
+            <div className="text-center mb-14">
+              <Badge variant="outline" className="mb-4 px-4 py-1 border-amber-500/30 text-amber-700">Recognition</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Achievements & Awards</h2>
+              <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
+                Celebrating excellence and milestones in mobile repair services
+              </p>
+            </div>
+
+            <div className="max-w-6xl mx-auto space-y-16">
+              {/* Always show "In Process" section */}
+              <div className="flex flex-col items-center justify-center py-12 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-900/20 dark:to-yellow-900/20 rounded-3xl border-2 border-amber-300/30">
+                <div className="relative">
+                  <div className="w-32 h-32 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-xl border-4 border-white dark:border-gray-800">
+                    <Award className="h-16 w-16 text-white" />
+                  </div>
+                  <div className="absolute -right-3 -bottom-3 w-12 h-12 rounded-full bg-amber-400 animate-pulse" />
+                </div>
+                <h3 className="text-2xl font-bold mt-8 text-amber-900 dark:text-amber-100">In Process</h3>
+                <p className="text-muted-foreground text-center max-w-md mt-4">
+                  We are working on documenting more achievements and awards. Check back soon to see our latest milestones!
+                </p>
+              </div>
+
+              {/* Display existing achievements if any */}
+              {achievements.length > 0 && (
+                <>
+                  {(() => {
+                    // Group achievements by year
+                    const achievementsByYear = achievements.reduce((acc: any, achievement: any) => {
+                      const year = achievement.year
+                      if (!acc[year]) {
+                        acc[year] = []
+                      }
+                      acc[year].push(achievement)
+                      return acc
+                    }, {})
+
+                    // Sort years in descending order
+                    const sortedYears = Object.keys(achievementsByYear).sort((a, b) => parseInt(b) - parseInt(a))
+
+                  return sortedYears.map((year, yearIndex) => (
+                    <div key={year} className={`flex flex-col ${yearIndex % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 items-start`}>
+                      {/* Year Badge - Left or Right */}
+                      <div className="flex-shrink-0">
+                        <div className="relative">
+                          <div className="w-24 h-24 rounded-2xl bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-xl border-4 border-white dark:border-gray-800">
+                            <span className="text-3xl font-bold text-white">{year}</span>
+                          </div>
+                          <div className="absolute -right-2 -bottom-2 w-8 h-8 rounded-full bg-amber-400 animate-pulse" />
+                        </div>
+                      </div>
+
+                      {/* Achievements Grid */}
+                      <div className="flex-1">
+                        <div className="grid grid-cols-1 gap-4">
+                          {achievementsByYear[year].map((achievement: any) => (
+                            <Card 
+                              key={achievement.id} 
+                              className="overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-2 border-amber-500/20 bg-gradient-to-br from-white via-amber-50/30 to-yellow-50/50 dark:from-card dark:via-amber-950/5 dark:to-yellow-950/10 group"
+                            >
+                              <div className="grid md:grid-cols-2 gap-0">
+                                {/* Image + Title Side */}
+                                <div className="relative h-48 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/20 dark:to-yellow-900/20 overflow-hidden">
+                                  {achievement.image_url ? (
+                                    <Image
+                                      src={achievement.image_url}
+                                      alt={achievement.title}
+                                      fill
+                                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                    />
+                                  ) : (
+                                    <div className="absolute inset-0 flex items-center justify-center">
+                                      <Award className="h-20 w-20 text-amber-400/40" />
+                                    </div>
+                                  )}
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+                                  
+                                  {/* Title overlay on image */}
+                                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                                    <div className="flex items-center gap-2 mb-2">
+                                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-md">
+                                        <Award className="h-4 w-4 text-white" />
+                                      </div>
+                                    </div>
+                                    <CardTitle className="text-lg text-white font-bold drop-shadow-lg">
+                                      {achievement.title}
+                                    </CardTitle>
+                                  </div>
+                                </div>
+
+                                {/* Description Side */}
+                                <CardContent className="flex items-center p-6 bg-gradient-to-br from-amber-50/50 to-yellow-50/30 dark:from-amber-950/10 dark:to-yellow-950/5">
+                                  {achievement.description ? (
+                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                      {achievement.description}
+                                    </p>
+                                  ) : (
+                                    <p className="text-sm text-muted-foreground/50 italic">
+                                      No description available
+                                    </p>
+                                  )}
+                                </CardContent>
+                              </div>
+                            </Card>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                })()}
+                </>
+              )}
             </div>
           </div>
         </section>

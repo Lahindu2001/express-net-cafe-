@@ -16,7 +16,8 @@ import {
   LogOut,
   ShoppingBag,
   Battery,
-  Tv
+  Tv,
+  Award
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -41,6 +42,7 @@ const navigation = [
   { name: "Routers", href: "/admin/routers", icon: Wifi },
   { name: "Televisions", href: "/admin/televisions", icon: Tv },
   { name: "Services", href: "/admin/services", icon: Wrench },
+  { name: "Achievements", href: "/admin/achievements", icon: Award },
   { name: "Reviews", href: "/admin/reviews", icon: Star },
   { name: "Users", href: "/admin/users", icon: Users },
 ]

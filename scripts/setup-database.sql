@@ -141,6 +141,17 @@ CREATE TABLE IF NOT EXISTS televisions (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Achievements table
+CREATE TABLE IF NOT EXISTS achievements (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  description TEXT,
+  year INTEGER NOT NULL,
+  image_url VARCHAR(500),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Services table (photocopy, printout, etc.)
 CREATE TABLE IF NOT EXISTS services (
   id SERIAL PRIMARY KEY,
