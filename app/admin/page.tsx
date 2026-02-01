@@ -73,6 +73,7 @@ export default async function AdminDashboard() {
       icon: Smartphone,
       color: "text-blue-600",
       bgColor: "bg-blue-500/10",
+      href: "/admin/display-prices",
     },
     {
       title: "Battery Prices",
@@ -80,6 +81,7 @@ export default async function AdminDashboard() {
       icon: Battery,
       color: "text-red-600",
       bgColor: "bg-red-500/10",
+      href: "/admin/battery-prices",
     },
     {
       title: "Accessories",
@@ -87,6 +89,7 @@ export default async function AdminDashboard() {
       icon: Package,
       color: "text-green-600",
       bgColor: "bg-green-500/10",
+      href: "/admin/accessories",
     },
     {
       title: "SIM Cards",
@@ -94,6 +97,7 @@ export default async function AdminDashboard() {
       icon: CreditCard,
       color: "text-orange-600",
       bgColor: "bg-orange-500/10",
+      href: "/admin/sim-cards",
     },
     {
       title: "Routers",
@@ -101,6 +105,7 @@ export default async function AdminDashboard() {
       icon: Wifi,
       color: "text-purple-600",
       bgColor: "bg-purple-500/10",
+      href: "/admin/routers",
     },
     {
       title: "Services",
@@ -108,6 +113,7 @@ export default async function AdminDashboard() {
       icon: Wrench,
       color: "text-pink-600",
       bgColor: "bg-pink-500/10",
+      href: "/admin/services",
     },
     {
       title: "Users",
@@ -115,6 +121,7 @@ export default async function AdminDashboard() {
       icon: Users,
       color: "text-cyan-600",
       bgColor: "bg-cyan-500/10",
+      href: "/admin/users",
     },
     {
       title: "Reviews",
@@ -123,6 +130,7 @@ export default async function AdminDashboard() {
       icon: Star,
       color: "text-yellow-600",
       bgColor: "bg-yellow-500/10",
+      href: "/admin/reviews",
     },
   ]
 
@@ -132,22 +140,24 @@ export default async function AdminDashboard() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {statCards.map((stat) => (
-          <Card key={stat.title}>
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">
-                {stat.title}
-              </CardTitle>
-              <div className={`w-10 h-10 rounded-full ${stat.bgColor} flex items-center justify-center`}>
-                <stat.icon className={`h-5 w-5 ${stat.color}`} />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">{stat.value}</div>
-              {stat.subtitle && (
-                <p className="text-sm text-muted-foreground mt-1">{stat.subtitle}</p>
-              )}
-            </CardContent>
-          </Card>
+          <Link key={stat.title} href={stat.href} className="block">
+            <Card className="cursor-pointer hover:shadow-lg transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  {stat.title}
+                </CardTitle>
+                <div className={`w-10 h-10 rounded-full ${stat.bgColor} flex items-center justify-center`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold">{stat.value}</div>
+                {stat.subtitle && (
+                  <p className="text-sm text-muted-foreground mt-1">{stat.subtitle}</p>
+                )}
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
 
