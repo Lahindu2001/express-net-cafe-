@@ -51,6 +51,19 @@ CREATE TABLE IF NOT EXISTS display_prices (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Battery replacement prices
+CREATE TABLE IF NOT EXISTS battery_prices (
+  id SERIAL PRIMARY KEY,
+  model_id INTEGER REFERENCES phone_models(id) ON DELETE CASCADE,
+  battery_type VARCHAR(100) DEFAULT 'Original',
+  price DECIMAL(10, 2) NOT NULL,
+  image_url VARCHAR(500),
+  quantity INTEGER DEFAULT 0,
+  notes TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Accessory categories
 CREATE TABLE IF NOT EXISTS accessory_categories (
   id SERIAL PRIMARY KEY,

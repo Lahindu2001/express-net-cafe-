@@ -7,7 +7,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Loader2, Upload, X, Check } from 'lucide-react';
 
 interface ImageUploadProps {
-  onUpload: (imageUrl: string) => void;
+  onUpload?: (imageUrl: string) => void;
+  onChange?: (imageUrl: string) => void;
+  value?: string;
   folder?: string;
   currentImage?: string;
   label?: string;
@@ -15,14 +17,16 @@ interface ImageUploadProps {
 }
 
 export function ImageUpload({ 
-  onUpload, 
+  onUpload,
+  onChange,
+  value,
   folder = 'general', 
   currentImage,
   label = 'Upload Image',
   className = ''
 }: ImageUploadProps) {
   const [uploading, setUploading] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState(currentImage || '');
+  const [previewUrl, setPreviewUrl] = useState(value || currentImage || '');
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,7 +67,8 @@ export function ImageUpload({
       
       if (result.url) {
         setPreviewUrl(result.url);
-        onUpload(result.url); // This URL gets saved to your Neon database
+        if (onUpload) onUpload(result.url);
+        if (onChange) onChange(result.url);
         setUploadProgress(100);
         
         // Success feedback

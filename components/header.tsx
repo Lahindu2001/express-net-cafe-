@@ -28,6 +28,7 @@ interface HeaderProps {
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Display Repair", href: "/display-repair" },
+  { name: "Battery Replacement", href: "/battery-replacement" },
   { name: "Accessories", href: "/accessories" },
   { name: "SIM Cards", href: "/sim-cards" },
   { name: "Routers", href: "/routers" },
