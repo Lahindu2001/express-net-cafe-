@@ -83,7 +83,7 @@ export function Header({ user }: HeaderProps) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3">
+          <Link href="/" className="flex items-center gap-2 sm:gap-3 flex-shrink-0 min-w-0">
             <div className="relative w-10 h-10 sm:w-12 sm:h-12 flex-shrink-0">
               <Image
                 src="/logo.png"
@@ -94,8 +94,8 @@ export function Header({ user }: HeaderProps) {
                 sizes="(max-width: 640px) 40px, 48px"
               />
             </div>
-            <div>
-              <span className="font-bold text-lg sm:text-xl text-foreground">Express Net Cafe</span>
+            <div className="min-w-0">
+              <span className="font-bold text-sm sm:text-lg md:text-xl text-foreground whitespace-nowrap">Express Net Cafe</span>
               <p className="text-xs text-muted-foreground hidden sm:block">Mobile Repair & Services</p>
             </div>
           </Link>
