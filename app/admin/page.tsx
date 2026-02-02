@@ -3,7 +3,7 @@ import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery, Tv, Award } from "lucide-react"
+import { Smartphone, Package, CreditCard, Wifi, Users, Star, Wrench, TrendingUp, AlertCircle, Plus, Battery, Tv, Award, MessageSquare } from "lucide-react"
 
 async function getStats() {
   try {
@@ -24,6 +24,7 @@ async function getStats() {
       lowStockRouters,
       lowStockTelevisions,
       visitorResult,
+      chatStats,
     ] = await Promise.all([
       sql`SELECT COUNT(*) as count FROM display_prices`,
       sql`SELECT COUNT(*) as count FROM battery_prices`,
@@ -41,6 +42,13 @@ async function getStats() {
       sql`SELECT COUNT(*) as count FROM routers WHERE quantity <= 3`,
       sql`SELECT COUNT(*) as count FROM televisions WHERE quantity <= 3`,
       sql`SELECT stat_value FROM site_stats WHERE stat_name = 'total_visitors'`,
+      sql`
+        SELECT 
+          COUNT(*) as total_chats,
+          COUNT(*) FILTER (WHERE status = 'active') as active_chats,
+          (SELECT COUNT(*) FROM chat_messages WHERE sender_type = 'customer' AND is_read = false) as unread_messages
+        FROM chat_sessions
+      `,
     ])
 
     return {
@@ -57,6 +65,9 @@ async function getStats() {
       pendingReviews: Number(pendingReviews[0]?.count || 0),
       visitors: Number(visitorResult[0]?.stat_value || 0),
       lowStock: Number(lowStockAccessories[0]?.count || 0) + Number(lowStockSims[0]?.count || 0) + Number(lowStockRouters[0]?.count || 0) + Number(lowStockTelevisions[0]?.count || 0),
+      totalChats: Number(chatStats[0]?.total_chats || 0),
+      activeChats: Number(chatStats[0]?.active_chats || 0),
+      unreadMessages: Number(chatStats[0]?.unread_messages || 0),
     }
   } catch {
     return {
@@ -73,6 +84,9 @@ async function getStats() {
       pendingReviews: 0,
       visitors: 0,
       lowStock: 0,
+      totalChats: 0,
+      activeChats: 0,
+      unreadMessages: 0,
     }
   }
 }
@@ -147,11 +161,19 @@ export default async function AdminDashboard() {
     },
     {
       title: "Users",
-      value: stats.users,
       icon: Users,
       color: "text-cyan-600",
       bgColor: "bg-cyan-500/10",
       href: "/admin/users",
+    },
+    {
+      title: "Customer Chats",
+      value: stats.totalChats,
+      subtitle: stats.unreadMessages > 0 ? `${stats.unreadMessages} unread` : `${stats.activeChats} active`,
+      icon: MessageSquare,
+      color: "text-blue-600",
+      bgColor: "bg-blue-500/10",
+      href: "/admin/chats",
     },
     {
       title: "Website Visitors",
