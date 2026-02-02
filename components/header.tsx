@@ -124,8 +124,8 @@ export function Header({ user }: HeaderProps) {
           </nav>
 
           {/* Right side actions */}
-          <div className="flex items-center gap-2">
-            {/* Search */}
+          <div className="flex items-center gap-1 sm:gap-2">
+            {/* Search - Hidden on mobile when not logged in, show icon only */}
             {searchOpen ? (
               <form onSubmit={handleSearch} className="flex items-center gap-2">
                 <Input
@@ -133,7 +133,7 @@ export function Header({ user }: HeaderProps) {
                   placeholder="Search..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-40 sm:w-64"
+                  className="w-32 sm:w-48 md:w-64"
                   autoFocus
                 />
                 <Button type="button" variant="ghost" size="icon" onClick={() => setSearchOpen(false)}>
@@ -141,7 +141,7 @@ export function Header({ user }: HeaderProps) {
                 </Button>
               </form>
             ) : (
-              <Button variant="ghost" size="icon" onClick={() => setSearchOpen(true)}>
+              <Button variant="ghost" size="icon" className="hidden sm:flex" onClick={() => setSearchOpen(true)}>
                 <Search className="h-5 w-5" />
               </Button>
             )}
@@ -169,11 +169,11 @@ export function Header({ user }: HeaderProps) {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <div className="flex gap-2">
-                <Button asChild variant="outline" size="sm">
+              <div className="hidden sm:flex gap-2">
+                <Button asChild variant="outline" size="sm" className="text-xs sm:text-sm">
                   <Link href="/signup">Sign Up</Link>
                 </Button>
-                <Button asChild variant="default" size="sm">
+                <Button asChild variant="default" size="sm" className="text-xs sm:text-sm">
                   <Link href="/login">Login</Link>
                 </Button>
               </div>
@@ -183,7 +183,7 @@ export function Header({ user }: HeaderProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="lg:hidden"
+              className="lg:hidden flex-shrink-0"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -212,6 +212,34 @@ export function Header({ user }: HeaderProps) {
                   </Link>
                 )
               })}
+              
+              {/* Mobile Auth Buttons - Show only when not logged in */}
+              {!user && (
+                <div className="flex flex-col gap-2 mt-4 px-4 sm:hidden">
+                  <Button asChild variant="outline" size="sm" className="w-full">
+                    <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>Sign Up</Link>
+                  </Button>
+                  <Button asChild variant="default" size="sm" className="w-full">
+                    <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Login</Link>
+                  </Button>
+                </div>
+              )}
+              
+              {/* Mobile Search Button */}
+              <div className="px-4 mt-2 sm:hidden">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full"
+                  onClick={() => {
+                    setSearchOpen(true)
+                    setMobileMenuOpen(false)
+                  }}
+                >
+                  <Search className="h-4 w-4 mr-2" />
+                  Search
+                </Button>
+              </div>
             </div>
           </nav>
         )}
