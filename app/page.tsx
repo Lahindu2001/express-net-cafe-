@@ -392,44 +392,41 @@ export default async function HomePage() {
 
                       {/* Achievements Grid */}
                       <div className="flex-1">
-                        <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-6">
                           {achievementsByYear[year].map((achievement: any) => (
                             <Card 
                               key={achievement.id} 
-                              className="overflow-hidden hover:shadow-xl transition-all duration-500 hover:-translate-y-1 border-2 border-amber-500/20 bg-gradient-to-br from-white via-amber-50/30 to-yellow-50/50 dark:from-card dark:via-amber-950/5 dark:to-yellow-950/10 group"
+                              className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white dark:bg-card border border-border group"
                             >
-                              <div className="grid md:grid-cols-2 gap-0">
-                                {/* Image + Title Side */}
-                                <div className="relative h-48 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/20 dark:to-yellow-900/20 overflow-hidden">
+                              <div className="flex flex-col md:flex-row gap-0">
+                                {/* Image Section */}
+                                <div className="relative w-full md:w-64 h-64 flex-shrink-0 bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950/20 dark:to-yellow-950/20">
                                   {achievement.image_url ? (
                                     <Image
                                       src={achievement.image_url}
                                       alt={achievement.title}
                                       fill
-                                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                                      className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                                      sizes="(max-width: 768px) 100vw, 256px"
                                     />
                                   ) : (
                                     <div className="absolute inset-0 flex items-center justify-center">
                                       <Award className="h-20 w-20 text-amber-400/40" />
                                     </div>
                                   )}
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
-                                  
-                                  {/* Title overlay on image */}
-                                  <div className="absolute bottom-0 left-0 right-0 p-4">
-                                    <div className="flex items-center gap-2 mb-2">
-                                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-md">
-                                        <Award className="h-4 w-4 text-white" />
-                                      </div>
-                                    </div>
-                                    <CardTitle className="text-lg text-white font-bold drop-shadow-lg">
-                                      {achievement.title}
-                                    </CardTitle>
-                                  </div>
                                 </div>
 
-                                {/* Description Side */}
-                                <CardContent className="flex items-center p-6 bg-gradient-to-br from-amber-50/50 to-yellow-50/30 dark:from-amber-950/10 dark:to-yellow-950/5">
+                                {/* Content Section */}
+                                <div className="flex-1 p-6 flex flex-col justify-center">
+                                  <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-amber-500 to-yellow-500 flex items-center justify-center shadow-lg">
+                                      <Award className="h-5 w-5 text-white" />
+                                    </div>
+                                    <span className="text-xs font-semibold text-amber-600 dark:text-amber-400 uppercase tracking-wide">Achievement</span>
+                                  </div>
+                                  <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                                    {achievement.title}
+                                  </h3>
                                   {achievement.description ? (
                                     <p className="text-sm text-muted-foreground leading-relaxed">
                                       {achievement.description}
@@ -439,7 +436,7 @@ export default async function HomePage() {
                                       No description available
                                     </p>
                                   )}
-                                </CardContent>
+                                </div>
                               </div>
                             </Card>
                           ))}
