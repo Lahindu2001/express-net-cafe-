@@ -17,7 +17,8 @@ import {
   ShoppingBag,
   Battery,
   Tv,
-  Award
+  Award,
+  MessageSquare
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -32,6 +33,7 @@ interface AdminSidebarProps {
 
 const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Chats", href: "/admin/chats", icon: MessageSquare },
   { name: "Display Prices", href: "/admin/display-prices", icon: Smartphone },
   { name: "Battery Prices", href: "/admin/battery-prices", icon: Battery },
   { name: "Phone Brands", href: "/admin/brands", icon: Smartphone },

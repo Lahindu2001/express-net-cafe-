@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { ChatWidget } from "@/components/chat-widget"
 import { getSession } from "@/lib/auth"
 import sql from "@/lib/db"
 import { Button } from "@/components/ui/button"
@@ -604,6 +605,9 @@ export default async function HomePage() {
       </main>
 
       <Footer />
+      
+      {/* Floating Chat Widget */}
+      <ChatWidget />
     </div>
   )
 }
