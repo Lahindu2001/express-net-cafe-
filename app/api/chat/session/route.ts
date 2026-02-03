@@ -85,3 +85,42 @@ export async function GET(request: Request) {
     )
   }
 }
+
+// Delete chat session
+export async function DELETE(request: Request) {
+  try {
+    const session = await getSession()
+
+    if (!session || session.role !== "admin") {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
+    const { searchParams } = new URL(request.url)
+    const sessionId = searchParams.get("sessionId")
+
+    if (!sessionId) {
+      return NextResponse.json({ error: "Session ID required" }, { status: 400 })
+    }
+
+    // Delete associated messages first
+    await sql`
+      DELETE FROM chat_messages WHERE session_id = ${sessionId}
+    `
+
+    // Delete the session
+    await sql`
+      DELETE FROM chat_sessions WHERE id = ${sessionId}
+    `
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error("Error deleting chat session:", error)
+    return NextResponse.json(
+      { error: "Failed to delete chat session" },
+      { status: 500 }
+    )
+  }
+}

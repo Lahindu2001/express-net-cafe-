@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Badge } from "@/components/ui/badge"
-import { Send, Loader2, User, MessageCircle, RefreshCw } from "lucide-react"
+import { Send, Loader2, User, MessageCircle, RefreshCw, Trash2 } from "lucide-react"
 
 interface ChatSession {
   id: number
@@ -125,6 +125,30 @@ export function ChatList() {
     }
   }
 
+  const handleDeleteSession = async (sessionId: number) => {
+    if (!confirm("Are you sure you want to delete this chat session? This will permanently delete all messages.")) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/chat/session?sessionId=${sessionId}`, {
+        method: "DELETE",
+      })
+
+      if (response.ok) {
+        // Clear selected session if it was deleted
+        if (selectedSession?.id === sessionId) {
+          setSelectedSession(null)
+          setMessages([])
+        }
+        // Refresh the sessions list
+        await fetchSessions()
+      }
+    } catch (error) {
+      console.error("Error deleting session:", error)
+    }
+  }
+
   const getDisplayName = (session: ChatSession) => {
     return session.user_name || session.guest_name || "Guest User"
   }
@@ -162,31 +186,46 @@ export function ChatList() {
               </div>
             ) : (
               sessions.map((session) => (
-                <button
+                <div
                   key={session.id}
-                  onClick={() => setSelectedSession(session)}
-                  className={`w-full p-4 text-left hover:bg-muted transition-colors ${
+                  className={`group relative hover:bg-muted transition-colors ${
                     selectedSession?.id === session.id ? "bg-muted" : ""
                   }`}
                 >
-                  <div className="flex items-start justify-between mb-1">
-                    <p className="font-semibold text-sm">{getDisplayName(session)}</p>
-                    {session.unread_count > 0 && (
-                      <Badge variant="destructive" className="ml-2">
-                        {session.unread_count}
-                      </Badge>
+                  <button
+                    onClick={() => setSelectedSession(session)}
+                    className="w-full p-4 text-left"
+                  >
+                    <div className="flex items-start justify-between mb-1">
+                      <p className="font-semibold text-sm">{getDisplayName(session)}</p>
+                      {session.unread_count > 0 && (
+                        <Badge variant="destructive" className="ml-2">
+                          {session.unread_count}
+                        </Badge>
+                      )}
+                    </div>
+                    <p className="text-xs text-muted-foreground mb-1">{getDisplayEmail(session)}</p>
+                    {session.last_message && (
+                      <p className="text-sm text-muted-foreground truncate">
+                        {session.last_message}
+                      </p>
                     )}
-                  </div>
-                  <p className="text-xs text-muted-foreground mb-1">{getDisplayEmail(session)}</p>
-                  {session.last_message && (
-                    <p className="text-sm text-muted-foreground truncate">
-                      {session.last_message}
+                    <p className="text-xs text-muted-foreground mt-1">
+                      {new Date(session.last_message_at).toLocaleString()}
                     </p>
-                  )}
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {new Date(session.last_message_at).toLocaleString()}
-                  </p>
-                </button>
+                  </button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteSession(session.id)
+                    }}
+                    className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity h-8 w-8"
+                  >
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
               ))
             )}
           </div>
