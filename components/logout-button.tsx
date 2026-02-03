@@ -2,7 +2,6 @@
 
 import React from "react"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { LogOut, Loader2, CheckCircle2 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -13,39 +12,58 @@ interface LogoutButtonProps {
 }
 
 export function LogoutButton({ className, showIcon = false, variant = "dropdown" }: LogoutButtonProps) {
-  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
 
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    
+    // Prevent any event bubbling
+    if (e.currentTarget) {
+      e.currentTarget.setAttribute('disabled', 'true')
+    }
+    
     setLoading(true)
 
     try {
-      // Clear any localStorage or sessionStorage that might trigger network requests
+      // Clear all storage immediately
       if (typeof window !== 'undefined') {
-        sessionStorage.clear()
-        localStorage.removeItem('chatSessionId')
+        try {
+          sessionStorage.clear()
+          localStorage.clear()
+        } catch (err) {
+          console.error('Storage clear error:', err)
+        }
       }
 
+      // Simple logout request with minimal options
       const res = await fetch("/api/auth/logout", {
         method: "GET",
-        credentials: 'same-origin',
+        cache: 'no-store',
       })
 
       if (res.ok) {
         setSuccess(true)
         
-        // Show success message briefly before redirect
+        // Use simple redirect without any router
         setTimeout(() => {
-          // Force a clean redirect without triggering network discovery
-          window.location.href = "/"
-        }, 800)
+          if (typeof window !== 'undefined') {
+            // Hard navigation without history
+            window.location.replace("/")
+          }
+        }, 500)
+      } else {
+        throw new Error('Logout failed')
       }
     } catch (error) {
       console.error("Logout failed:", error)
-      setLoading(false)
+      // Even on error, redirect to home
+      setTimeout(() => {
+        if (typeof window !== 'undefined') {
+          window.location.replace("/")
+        }
+      }, 500)
     }
   }
 
@@ -53,7 +71,7 @@ export function LogoutButton({ className, showIcon = false, variant = "dropdown"
     return (
       <Alert className="flex items-start gap-2 border-green-500 bg-green-50 text-green-900 mb-2">
         <CheckCircle2 className="h-4 w-4 mt-0.5" />
-        <AlertDescription>Logged out successfully! Redirecting...</AlertDescription>
+        <AlertDescription>Logged out successfully!</AlertDescription>
       </Alert>
     )
   }
