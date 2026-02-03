@@ -197,9 +197,9 @@ export default async function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6">Dashboard</h1>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
         {statCards.map((stat) => (
           <Link key={stat.title} href={stat.href} className="block">
             <Card className="cursor-pointer hover:shadow-lg transition-shadow">
@@ -212,7 +212,7 @@ export default async function AdminDashboard() {
                 </div>
               </CardHeader>
               <CardContent>
-                <div className="text-3xl font-bold">{stat.value}</div>
+                <div className="text-2xl sm:text-3xl font-bold">{stat.value}</div>
                 {stat.subtitle && (
                   <p className="text-sm text-muted-foreground mt-1">{stat.subtitle}</p>
                 )}
@@ -222,88 +222,88 @@ export default async function AdminDashboard() {
         ))}
       </div>
 
-      <div className="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="mt-6 sm:mt-8 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/display-prices/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Smartphone className="h-4 w-4" />
-                    <span className="font-semibold">Add Display Price</span>
+                    <span className="font-semibold text-sm">Add Display Price</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New phone model</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/battery-prices/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Battery className="h-4 w-4" />
-                    <span className="font-semibold">Add Battery Price</span>
+                    <span className="font-semibold text-sm">Add Battery Price</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New battery model</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/accessories/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Package className="h-4 w-4" />
-                    <span className="font-semibold">Add Accessory</span>
+                    <span className="font-semibold text-sm">Add Accessory</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New product</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/sim-cards/new">
                   <div className="flex items-center gap-2 mb-1">
                     <CreditCard className="h-4 w-4" />
-                    <span className="font-semibold">Add SIM Card</span>
+                    <span className="font-semibold text-sm">Add SIM Card</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New SIM type</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/routers/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Wifi className="h-4 w-4" />
-                    <span className="font-semibold">Add Router</span>
+                    <span className="font-semibold text-sm">Add Router</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New router model</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/televisions/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Tv className="h-4 w-4" />
-                    <span className="font-semibold">Add Television</span>
+                    <span className="font-semibold text-sm">Add Television</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New TV model</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/services/new">
                   <div className="flex items-center gap-2 mb-1">
                     <Wrench className="h-4 w-4" />
-                    <span className="font-semibold">Add Service</span>
+                    <span className="font-semibold text-sm">Add Service</span>
                   </div>
                   <span className="text-xs text-muted-foreground">New service type</span>
                 </Link>
               </Button>
 
-              <Button asChild variant="outline" className="h-auto py-4 flex flex-col items-start">
+              <Button asChild variant="outline" className="h-auto py-3 sm:py-4 flex flex-col items-start">
                 <Link href="/admin/reviews">
                   <div className="flex items-center gap-2 mb-1">
                     <Star className="h-4 w-4" />
-                    <span className="font-semibold">Review Approvals</span>
+                    <span className="font-semibold text-sm">Review Approvals</span>
                     {stats.pendingReviews > 0 && (
                       <Badge variant="destructive" className="ml-1">{stats.pendingReviews}</Badge>
                     )}
@@ -317,36 +317,36 @@ export default async function AdminDashboard() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Inventory Alerts</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Inventory Alerts</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               {stats.lowStock > 0 ? (
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
-                  <AlertCircle className="h-5 w-5 text-orange-600 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="font-medium text-orange-900">Low Stock Alert</p>
+                  <AlertCircle className="h-5 w-5 text-orange-600 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-orange-900 text-sm sm:text-base">Low Stock Alert</p>
                     <p className="text-sm text-orange-800">
                       {stats.lowStock} {stats.lowStock === 1 ? 'item' : 'items'} running low on stock
                     </p>
-                    <div className="flex gap-2 mt-2">
-                      <Button asChild size="sm" variant="outline">
-                        <Link href="/admin/accessories">Check Accessories</Link>
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <Button asChild size="sm" variant="outline" className="text-xs">
+                        <Link href="/admin/accessories">Accessories</Link>
                       </Button>
-                      <Button asChild size="sm" variant="outline">
-                        <Link href="/admin/sim-cards">Check SIM Cards</Link>
+                      <Button asChild size="sm" variant="outline" className="text-xs">
+                        <Link href="/admin/sim-cards">SIM Cards</Link>
                       </Button>
-                      <Button asChild size="sm" variant="outline">
-                        <Link href="/admin/routers">Check Routers</Link>
+                      <Button asChild size="sm" variant="outline" className="text-xs">
+                        <Link href="/admin/routers">Routers</Link>
                       </Button>
                     </div>
                   </div>
                 </div>
               ) : (
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-green-500/10 border border-green-500/20">
-                  <TrendingUp className="h-5 w-5 text-green-600 mt-0.5" />
+                  <TrendingUp className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="font-medium text-green-900">Inventory Healthy</p>
+                    <p className="font-medium text-green-900 text-sm sm:text-base">Inventory Healthy</p>
                     <p className="text-sm text-green-800">All items are well stocked</p>
                   </div>
                 </div>
@@ -354,13 +354,13 @@ export default async function AdminDashboard() {
 
               {stats.pendingReviews > 0 && (
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                  <Star className="h-5 w-5 text-blue-600 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="font-medium text-blue-900">Pending Reviews</p>
+                  <Star className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="font-medium text-blue-900 text-sm sm:text-base">Pending Reviews</p>
                     <p className="text-sm text-blue-800">
                       {stats.pendingReviews} {stats.pendingReviews === 1 ? 'review' : 'reviews'} waiting for approval
                     </p>
-                    <Button asChild size="sm" variant="outline" className="mt-2">
+                    <Button asChild size="sm" variant="outline" className="mt-2 text-xs">
                       <Link href="/admin/reviews">Review Now</Link>
                     </Button>
                   </div>
@@ -371,19 +371,19 @@ export default async function AdminDashboard() {
                 <p className="text-sm font-medium mb-2">Quick Stats</p>
                 <div className="grid grid-cols-2 gap-2 text-sm">
                   <div>
-                    <p className="text-muted-foreground">Total Products</p>
+                    <p className="text-muted-foreground text-xs">Total Products</p>
                     <p className="font-semibold">{stats.displays + stats.accessories + stats.sims + stats.routers}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Total Services</p>
+                    <p className="text-muted-foreground text-xs">Total Services</p>
                     <p className="font-semibold">{stats.services}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Total Users</p>
+                    <p className="text-muted-foreground text-xs">Total Users</p>
                     <p className="font-semibold">{stats.users}</p>
                   </div>
                   <div>
-                    <p className="text-muted-foreground">Approved Reviews</p>
+                    <p className="text-muted-foreground text-xs">Approved Reviews</p>
                     <p className="font-semibold">{stats.reviews}</p>
                   </div>
                 </div>
@@ -394,7 +394,7 @@ export default async function AdminDashboard() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Shop Information</CardTitle>
+            <CardTitle className="text-lg sm:text-xl">Shop Information</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-3">
@@ -408,7 +408,7 @@ export default async function AdminDashboard() {
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Business Hours</p>
-                <p className="font-medium">9:00 AM - 9:00 PM (Closed on Poya Days)</p>
+                <p className="font-medium text-sm">9:00 AM - 9:00 PM (Closed on Poya Days)</p>
               </div>
               <div>
                 <p className="text-sm text-muted-foreground">Location</p>
@@ -416,7 +416,7 @@ export default async function AdminDashboard() {
                   href="https://maps.app.goo.gl/KdSNqvKxFeZMLrpd7"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-primary hover:underline"
+                  className="text-primary hover:underline text-sm"
                 >
                   View on Google Maps
                 </a>

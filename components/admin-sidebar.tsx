@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { LogoutButton } from "@/components/logout-button"
+import { useState } from "react"
 import { 
   LayoutDashboard, 
   Smartphone, 
@@ -18,7 +19,9 @@ import {
   Battery,
   Tv,
   Award,
-  MessageSquare
+  MessageSquare,
+  Menu,
+  X
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -51,64 +54,97 @@ const navigation = [
 
 export function AdminSidebar({ user }: AdminSidebarProps) {
   const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const closeSidebar = () => setIsOpen(false)
 
   return (
-    <div className="w-64 bg-card border-r border-border flex flex-col">
-      {/* Header */}
-      <div className="p-4 border-b border-border">
-        <Link href="/" className="flex items-center gap-2">
-          <ShoppingBag className="h-6 w-6 text-primary" />
-          <span className="font-bold">Express Net Cafe</span>
-        </Link>
-        <p className="text-xs text-muted-foreground mt-1">Admin Panel</p>
-      </div>
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="fixed top-4 left-4 z-50 lg:hidden bg-card border border-border rounded-md p-2 shadow-lg"
+        aria-label="Toggle menu"
+      >
+        {isOpen ? (
+          <X className="h-6 w-6" />
+        ) : (
+          <Menu className="h-6 w-6" />
+        )}
+      </button>
 
-      {/* Navigation */}
-      <nav className="flex-1 p-4">
-        <ul className="space-y-1">
-          {navigation.map((item) => {
-            const isActive = pathname === item.href || 
-              (item.href !== "/admin" && pathname.startsWith(item.href))
-            return (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  <item.icon className="h-4 w-4" />
-                  {item.name}
-                </Link>
-              </li>
-            )
-          })}
-        </ul>
-      </nav>
+      {/* Overlay for mobile */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+          onClick={closeSidebar}
+        />
+      )}
 
-      {/* User */}
-      <div className="p-4 border-t border-border">
-        <div className="mb-3">
-          <p className="font-medium text-sm">{user.name}</p>
-          <p className="text-xs text-muted-foreground">{user.email}</p>
+      {/* Sidebar */}
+      <div
+        className={cn(
+          "fixed lg:sticky top-0 left-0 z-40 h-screen w-64 bg-card border-r border-border flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0",
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        {/* Header */}
+        <div className="p-4 border-b border-border">
+          <Link href="/" className="flex items-center gap-2" onClick={closeSidebar}>
+            <ShoppingBag className="h-6 w-6 text-primary" />
+            <span className="font-bold">Express Net Cafe</span>
+          </Link>
+          <p className="text-xs text-muted-foreground mt-1">Admin Panel</p>
         </div>
-        <div className="flex gap-2">
-          <Button asChild variant="outline" size="sm" className="flex-1 bg-transparent">
-            <Link href="/">
-              <Home className="h-4 w-4 mr-1" />
-              Site
-            </Link>
-          </Button>
-          <LogoutButton 
-            variant="button" 
-            showIcon={true}
-            className="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent hover:text-accent-foreground h-9 px-3"
-          />
+
+        {/* Navigation */}
+        <nav className="flex-1 p-4 overflow-y-auto">
+          <ul className="space-y-1">
+            {navigation.map((item) => {
+              const isActive = pathname === item.href || 
+                (item.href !== "/admin" && pathname.startsWith(item.href))
+              return (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    onClick={closeSidebar}
+                    className={cn(
+                      "flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors",
+                      isActive
+                        ? "bg-primary text-primary-foreground"
+                        : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                    )}
+                  >
+                    <item.icon className="h-4 w-4" />
+                    {item.name}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+
+        {/* User */}
+        <div className="p-4 border-t border-border">
+          <div className="mb-3">
+            <p className="font-medium text-sm">{user.name}</p>
+            <p className="text-xs text-muted-foreground">{user.email}</p>
+          </div>
+          <div className="flex gap-2">
+            <Button asChild variant="outline" size="sm" className="flex-1 bg-transparent">
+              <Link href="/" onClick={closeSidebar}>
+                <Home className="h-4 w-4 mr-1" />
+                Site
+              </Link>
+            </Button>
+            <LogoutButton 
+              variant="button" 
+              showIcon={true}
+              className="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-transparent hover:bg-accent hover:text-accent-foreground h-9 px-3"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
