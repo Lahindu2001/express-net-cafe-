@@ -19,11 +19,19 @@ export function LogoutButton({ className, showIcon = false, variant = "dropdown"
 
   const handleLogout = async (e: React.MouseEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     setLoading(true)
 
     try {
+      // Clear any localStorage or sessionStorage that might trigger network requests
+      if (typeof window !== 'undefined') {
+        sessionStorage.clear()
+        localStorage.removeItem('chatSessionId')
+      }
+
       const res = await fetch("/api/auth/logout", {
         method: "GET",
+        credentials: 'same-origin',
       })
 
       if (res.ok) {
@@ -31,9 +39,9 @@ export function LogoutButton({ className, showIcon = false, variant = "dropdown"
         
         // Show success message briefly before redirect
         setTimeout(() => {
-          router.push("/")
-          router.refresh()
-        }, 1000)
+          // Force a clean redirect without triggering network discovery
+          window.location.href = "/"
+        }, 800)
       }
     } catch (error) {
       console.error("Logout failed:", error)

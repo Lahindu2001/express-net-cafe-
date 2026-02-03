@@ -48,7 +48,7 @@ export function ChatWidget() {
   useEffect(() => {
     if (isOpen && sessionId) {
       fetchMessages()
-      pollIntervalRef.current = setInterval(fetchMessages, 3000) // Poll every 3 seconds
+      pollIntervalRef.current = setInterval(fetchMessages, 5000) // Poll every 5 seconds (reduced frequency)
       
       return () => {
         if (pollIntervalRef.current) {
@@ -92,13 +92,20 @@ export function ChatWidget() {
     if (!id) return
 
     try {
-      const response = await fetch(`/api/chat/messages?sessionId=${id}`)
+      const response = await fetch(`/api/chat/messages?sessionId=${id}`, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
       if (response.ok) {
         const data = await response.json()
         setMessages(data.messages)
       }
     } catch (error) {
       console.error("Error fetching messages:", error)
+      // Don't retry on network errors to avoid triggering permission dialogs
     }
   }
 
