@@ -608,6 +608,100 @@ export default async function HomePage() {
       
       {/* Floating Chat Widget */}
       <ChatWidget />
+
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Express Net Cafe",
+            "image": "https://www.expressnetcafe.com/logo.png",
+            "description": "Mobile repair shop in Elpitiya, Sri Lanka offering display repair, battery replacement, accessories, SIM cards, routers, televisions, and photocopy services",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "346, Medalanda, Dompe, Doepe",
+              "addressLocality": "Elpitiya",
+              "addressRegion": "Galle",
+              "addressCountry": "LK"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": "6.2920",
+              "longitude": "80.1644"
+            },
+            "telephone": "+94702882883",
+            "priceRange": "$$",
+            "openingHoursSpecification": {
+              "@type": "OpeningHoursSpecification",
+              "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+              "opens": "09:00",
+              "closes": "21:00"
+            },
+            "url": "https://www.expressnetcafe.com",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "100"
+            },
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Mobile Repair Services",
+              "itemListElement": [
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Display Repair",
+                    "description": "Samsung, Apple, Huawei, Honor display repairs with 1 month warranty"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Battery Replacement",
+                    "description": "Original and compatible batteries with 1 month warranty"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Mobile Accessories",
+                    "description": "Chargers, cables, covers and more mobile accessories"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "SIM Cards",
+                    "description": "Dialog, Mobitel, Hutch, Airtel SIM cards"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Routers",
+                    "description": "Dialog and Mobitel routers"
+                  }
+                },
+                {
+                  "@type": "Offer",
+                  "itemOffered": {
+                    "@type": "Service",
+                    "name": "Photocopy & Print Services",
+                    "description": "Document and photo printing services"
+                  }
+                }
+              ]
+            }
+          })
+        }}
+      />
     </div>
   )
 }
