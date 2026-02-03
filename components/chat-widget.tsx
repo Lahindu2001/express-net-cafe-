@@ -141,11 +141,11 @@ export function ChatWidget() {
     <>
       {/* Chat Box */}
       {isOpen && (
-        <Card className="fixed bottom-24 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-96 shadow-2xl z-50 animate-in slide-in-from-bottom-5 duration-300">
-          <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg pb-4">
+        <Card className="fixed bottom-20 right-4 sm:right-6 w-[calc(100vw-2rem)] sm:w-80 max-w-[360px] shadow-2xl z-50 animate-in slide-in-from-bottom-5 duration-300">
+          <CardHeader className="bg-gradient-to-r from-primary to-primary/80 text-primary-foreground rounded-t-lg pb-3 pt-3">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="relative w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-lg">
+              <div className="flex items-center gap-2">
+                <div className="relative w-8 h-8 rounded-full overflow-hidden border-2 border-white shadow-lg">
                   <Image
                     src="/logo.png"
                     alt="Express Net Cafe"
@@ -154,7 +154,7 @@ export function ChatWidget() {
                   />
                 </div>
                 <div>
-                  <CardTitle className="text-base">Express Net Cafe</CardTitle>
+                  <CardTitle className="text-sm">Express Net Cafe</CardTitle>
                   <p className="text-xs opacity-90">We'll reply ASAP</p>
                 </div>
               </div>
@@ -162,16 +162,16 @@ export function ChatWidget() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsOpen(false)}
-                className="text-primary-foreground hover:bg-white/20"
+                className="text-primary-foreground hover:bg-white/20 h-8 w-8 flex-shrink-0"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </Button>
             </div>
           </CardHeader>
           
           <CardContent className="p-0">
             {loading ? (
-              <div className="flex items-center justify-center h-96">
+              <div className="flex items-center justify-center h-80">
                 <Loader2 className="h-8 w-8 animate-spin text-primary" />
               </div>
             ) : needsGuestInfo ? (
@@ -210,7 +210,7 @@ export function ChatWidget() {
             ) : (
               <>
                 {/* Messages */}
-                <div className="h-96 overflow-y-auto p-4 space-y-4 bg-gray-50 dark:bg-gray-900">
+                <div className="h-80 overflow-y-auto p-3 space-y-3 bg-gray-50 dark:bg-gray-900">
                   {messages.length === 0 ? (
                     <div className="flex items-center justify-center h-full">
                       <div className="text-center">
@@ -253,7 +253,7 @@ export function ChatWidget() {
                 </div>
 
                 {/* Message Input */}
-                <div className="p-4 border-t border-border bg-white dark:bg-card">
+                <div className="p-3 border-t border-border bg-white dark:bg-card">
                   <div className="flex gap-2">
                     <Textarea
                       placeholder="Type your message..."
