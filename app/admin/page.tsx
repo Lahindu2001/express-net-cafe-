@@ -161,6 +161,7 @@ export default async function AdminDashboard() {
     },
     {
       title: "Users",
+      value: stats.users,
       icon: Users,
       color: "text-cyan-600",
       bgColor: "bg-cyan-500/10",
