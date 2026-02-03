@@ -26,12 +26,17 @@ export function ChatWidget() {
   const [sending, setSending] = useState(false)
   const [guestInfo, setGuestInfo] = useState({ name: "", email: "" })
   const [needsGuestInfo, setNeedsGuestInfo] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useEffect(() => {
     if (isOpen && messages.length > 0) {
@@ -239,12 +244,17 @@ export function ChatWidget() {
                             </p>
                           )}
                           <p className="text-sm whitespace-pre-wrap break-words">{msg.message}</p>
-                          <p className={`text-xs mt-1 ${msg.sender_type === "customer" ? "opacity-80" : "opacity-50"}`}>
-                            {new Date(msg.created_at).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </p>
+                          {mounted && (
+                            <p className={`text-xs mt-1 ${msg.sender_type === "customer" ? "opacity-80" : "opacity-50"}`}>
+                              {new Date(msg.created_at).toLocaleString("en-US", {
+                                month: "short",
+                                day: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })}
+                            </p>
+                          )}
                         </div>
                       </div>
                     ))

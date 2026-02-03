@@ -267,7 +267,9 @@ export function ChatList() {
                       )}
                       <p className="text-sm whitespace-pre-wrap break-words">{msg.message}</p>
                       <p className={`text-xs mt-1 ${msg.sender_type === "admin" ? "opacity-80" : "opacity-50"}`}>
-                        {new Date(msg.created_at).toLocaleTimeString([], {
+                        {new Date(msg.created_at).toLocaleString([], {
+                          month: "short",
+                          day: "numeric",
                           hour: "2-digit",
                           minute: "2-digit",
                         })}

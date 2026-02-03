@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS chat_sessions (
   guest_name VARCHAR(100),
   guest_email VARCHAR(255),
   status VARCHAR(20) DEFAULT 'active' CHECK (status IN ('active', 'closed')),
-  last_message_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  last_message_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Chat messages
@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS chat_messages (
   sender_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
   message TEXT NOT NULL,
   is_read BOOLEAN DEFAULT false,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create indexes for better performance

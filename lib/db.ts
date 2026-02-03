@@ -19,7 +19,9 @@ if (!databaseUrl.startsWith('postgresql://')) {
   throw new Error('DATABASE_URL must be a valid PostgreSQL connection string starting with postgresql://')
 }
 
-// Initialize the database connection
-const sql = neon(databaseUrl)
+// Initialize the database connection with timezone configuration
+const sql = neon(databaseUrl, {
+  connectionTimeZone: 'Asia/Kolkata',
+})
 
 export default sql
