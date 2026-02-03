@@ -10,11 +10,11 @@ const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.expressnetcafe.com'),
   title: {
-    default: 'Express Net Cafe - Mobile Repair & Accessories | Elpitiya, Sri Lanka',
+    default: 'Express Net Cafe - Mobile Repair & Accessories | Dompe, Sri Lanka',
     template: '%s | Express Net Cafe'
   },
-  description: 'Express Net Cafe: Your trusted mobile repair shop in Elpitiya, Sri Lanka. Expert display repair, battery replacement, accessories, SIM cards, routers, televisions & photocopy services. 16+ years experience. Call 0702882883',
-  keywords: ['mobile repair Sri Lanka', 'mobile repair Elpitiya', 'display repair', 'battery replacement', 'phone repair', 'Samsung repair', 'Apple repair', 'Huawei repair', 'mobile accessories', 'SIM cards Sri Lanka', 'Dialog routers', 'Mobitel routers', 'photocopy services', 'Express Net Cafe'],
+  description: 'Express Net Cafe: Your trusted mobile repair shop in dompe, Sri Lanka. Expert display repair, battery replacement, accessories, SIM cards, routers, televisions & photocopy services. 16+ years experience. Call 0702882883',
+  keywords: ['mobile repair Sri Lanka', 'mobile repair Dompe', 'display repair', 'battery replacement', 'phone repair', 'Samsung repair', 'Apple repair', 'Huawei repair', 'mobile accessories', 'SIM cards Sri Lanka', 'Dialog routers', 'Mobitel routers', 'photocopy services', 'Express Net Cafe'],
   authors: [{ name: 'Express Net Cafe' }],
   creator: 'Express Net Cafe',
   publisher: 'Express Net Cafe',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
     locale: 'en_LK',
     url: 'https://www.expressnetcafe.com',
     siteName: 'Express Net Cafe',
-    title: 'Express Net Cafe - Mobile Repair & Accessories | Elpitiya, Sri Lanka',
-    description: 'Your trusted mobile repair shop in Elpitiya. Expert display repair, battery replacement, accessories & more. 16+ years experience. Call 0702882883',
+    title: 'Express Net Cafe - Mobile Repair & Accessories | Dompe, Sri Lanka',
+    description: 'Your trusted mobile repair shop in dompe. Expert display repair, battery replacement, accessories & more. 16+ years experience. Call 0702882883',
     images: [
       {
         url: '/logo.png',
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'Express Net Cafe - Mobile Repair & Accessories',
-    description: 'Your trusted mobile repair shop in Elpitiya, Sri Lanka. Expert services with 16+ years experience.',
+    description: 'Your trusted mobile repair shop in dompe, Sri Lanka. Expert services with 16+ years experience.',
     images: ['/logo.png'],
   },
   robots: {

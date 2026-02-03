@@ -618,11 +618,11 @@ export default async function HomePage() {
             "@type": "LocalBusiness",
             "name": "Express Net Cafe",
             "image": "https://www.expressnetcafe.com/logo.png",
-            "description": "Mobile repair shop in Elpitiya, Sri Lanka offering display repair, battery replacement, accessories, SIM cards, routers, televisions, and photocopy services",
+            "description": "Mobile repair shop in dompe, Sri Lanka offering display repair, battery replacement, accessories, SIM cards, routers, televisions, and photocopy services",
             "address": {
               "@type": "PostalAddress",
               "streetAddress": "346, Medalanda, Dompe, Doepe",
-              "addressLocality": "Elpitiya",
+              "addressLocality": "dompe",
               "addressRegion": "Galle",
               "addressCountry": "LK"
             },
