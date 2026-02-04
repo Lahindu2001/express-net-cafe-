@@ -6,7 +6,7 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.1-38B2AC?style=for-the-badge&logo=tailwind-css)
 ![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)
 
-A robust, full-stack web ecosystem built for **Express Net Cafe** (Elpitiya, Sri Lanka). This platform streamlines mobile repair tracking, e-commerce for accessories, and real-time customer engagement.
+A robust, full-stack web ecosystem built for **Express Net Cafe** (Dompe, Sri Lanka). This platform streamlines mobile repair tracking, e-commerce for accessories, and real-time customer engagement.
 
 🔗 **Live Demo:** [www.expressnetcafe.com](https://www.expressnetcafe.com)
 
